@@ -19,7 +19,19 @@
 
 
     <!-- =======================================================================
-    =
+    = DEPENDENCIES
     ======================================================================== -->
+    <dependencies>
+        <dependency>
+            <groupId>io.inugami</groupId>
+            <artifactId>inugami_api</artifactId>
+        </dependency>
 
+
+        <dependency>
+            <groupId>io.inugami</groupId>
+            <artifactId>inugami_commons_test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

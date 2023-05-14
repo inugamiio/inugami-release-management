@@ -5,8 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.time.Clock;
-
 @ComponentScan(basePackages = {
         "io.inugami.release.management",
         InugamiMonitoringConfig.INUGAMI_MONITORING_CONFIG

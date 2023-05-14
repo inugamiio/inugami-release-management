@@ -1,0 +1,7 @@
+{
+  "getArtifactId" : "inugami-release-management-common",
+  "getGroupId" : "io.inugami.release.management",
+  "getId" : 1,
+  "getType" : "jar",
+  "getVersion" : "1.0.0-SNAPSHOT"
+}
