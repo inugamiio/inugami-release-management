@@ -21,28 +21,28 @@ import io.inugami.release.management.api.domain.version.dto.VersionDTO;
 
 import java.util.List;
 
-public interface IVersionService {
+public interface IVersionDao {
     // =================================================================================================================
     // CREATE
     // =================================================================================================================
-    VersionDTO create(final VersionDTO versionDTO);
+    VersionDTO save(VersionDTO dto);
 
     // =================================================================================================================
     // READ
     // =================================================================================================================
-    List<VersionDTO> getAllVersions(final PageDTO page);
+    List<VersionDTO> getAll(final PageDTO page);
 
-    VersionDTO getVersion(final String groupId, final String artifactId, final String version, final String type);
-    VersionDTO getVersion(final long id);
+    VersionDTO getVersion(String groupId, String artifactId, String version, String type);
+
+
+    VersionDTO getVersion(long id);
 
     // =================================================================================================================
     // UPDATE
     // =================================================================================================================
-    VersionDTO update(final VersionDTO versionDTO);
+
 
     // =================================================================================================================
     // DELETE
     // =================================================================================================================
-    void delete(final String groupId, final String artifactId, final String version, final String type);
-    void delete(final long id);
 }

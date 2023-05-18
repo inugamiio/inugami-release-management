@@ -14,35 +14,53 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.domain.version;
+package io.inugami.release.management.infrastructure.domain.version;
 
 import io.inugami.release.management.api.common.dto.PageDTO;
+import io.inugami.release.management.api.domain.version.IVersionDao;
 import io.inugami.release.management.api.domain.version.dto.VersionDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface IVersionService {
+@RequiredArgsConstructor
+@Service
+public class VersionDao implements IVersionDao {
     // =================================================================================================================
     // CREATE
     // =================================================================================================================
-    VersionDTO create(final VersionDTO versionDTO);
+    @Override
+    public VersionDTO save(final VersionDTO dto) {
+        return null;
+    }
+
 
     // =================================================================================================================
     // READ
     // =================================================================================================================
-    List<VersionDTO> getAllVersions(final PageDTO page);
+    @Override
+    public List<VersionDTO> getAll(final PageDTO page) {
+        return null;
+    }
 
-    VersionDTO getVersion(final String groupId, final String artifactId, final String version, final String type);
-    VersionDTO getVersion(final long id);
+    @Override
+    public VersionDTO getVersion(final String groupId, final String artifactId, final String version, final String type) {
+        return null;
+    }
+
+    @Override
+    public VersionDTO getVersion(final long id) {
+        return null;
+    }
+
 
     // =================================================================================================================
     // UPDATE
     // =================================================================================================================
-    VersionDTO update(final VersionDTO versionDTO);
+
 
     // =================================================================================================================
     // DELETE
     // =================================================================================================================
-    void delete(final String groupId, final String artifactId, final String version, final String type);
-    void delete(final long id);
 }

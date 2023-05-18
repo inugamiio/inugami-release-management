@@ -1,0 +1,6 @@
+inugami:
+  release:
+    management:
+      domain:
+        version:
+          defaultPageSize: 50

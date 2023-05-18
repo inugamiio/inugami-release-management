@@ -26,6 +26,17 @@
             <groupId>io.inugami.release.management</groupId>
             <artifactId>inugami-release-management-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.inugami</groupId>
+            <artifactId>inugami_commons_test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
