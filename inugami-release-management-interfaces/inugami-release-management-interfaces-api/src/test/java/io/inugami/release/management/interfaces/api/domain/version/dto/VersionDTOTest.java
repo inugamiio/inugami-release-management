@@ -46,8 +46,8 @@ class VersionDTOTest {
         assertThat(value.hashCode()).isNotEqualTo(value.toBuilder().version(XXX).build().hashCode());
 
         //
-        assertThat(value).isNotEqualTo(value.toBuilder().type(XXX).build());
-        assertThat(value.hashCode()).isNotEqualTo(value.toBuilder().type(XXX).build().hashCode());
+        assertThat(value).isNotEqualTo(value.toBuilder().packaging(XXX).build());
+        assertThat(value.hashCode()).isNotEqualTo(value.toBuilder().packaging(XXX).build().hashCode());
     }
 
     public static VersionDTO buildDataSet() {
@@ -56,28 +56,28 @@ class VersionDTOTest {
                          .groupId("io.inugami.release.management")
                          .artifactId("inugami-release-management-common")
                          .version("1.0.0-SNAPSHOT")
-                         .type("jar")
+                         .packaging("jar")
                          .buildHash()
                          .dependencies(Set.of(VersionDTO.builder()
                                                         .id(2L)
                                                         .groupId("org.slf4j")
                                                         .artifactId("slf4j-api")
                                                         .version("1.7.36")
-                                                        .type("jar")
+                                                        .packaging("jar")
                                                         .build()))
                          .testDependencies(Set.of(VersionDTO.builder()
                                                             .id(3L)
                                                             .groupId("io.inugami")
                                                             .artifactId("inugami_commons_test")
                                                             .version("3.2.0")
-                                                            .type("jar")
+                                                            .packaging("jar")
                                                             .build()))
                          .projectDependencies(Set.of(VersionDTO.builder()
                                                                .id(1L)
                                                                .groupId("io.inugami.release.management")
                                                                .artifactId("inugami-release-management-api")
                                                                .version("1.0.0-SNAPSHOT")
-                                                               .type("jar")
+                                                               .packaging("jar")
                                                                .build()))
                          .build();
     }

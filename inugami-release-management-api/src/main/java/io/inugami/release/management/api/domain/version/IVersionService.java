@@ -32,7 +32,7 @@ public interface IVersionService {
     // =================================================================================================================
     List<VersionDTO> getAllVersions(final PageDTO page);
 
-    VersionDTO getVersion(final String groupId, final String artifactId, final String version, final String type);
+    VersionDTO getVersion(final String groupId, final String artifactId, final String version, final String packaging);
     VersionDTO getVersion(final long id);
 
     // =================================================================================================================

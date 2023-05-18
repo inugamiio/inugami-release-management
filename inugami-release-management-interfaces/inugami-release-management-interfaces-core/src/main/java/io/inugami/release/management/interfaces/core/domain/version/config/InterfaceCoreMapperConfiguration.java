@@ -14,29 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.interfaces.api.domain.version.dto;
+package io.inugami.release.management.interfaces.core.domain.version.config;
 
-import lombok.*;
+import io.inugami.release.management.interfaces.core.domain.version.mapper.VersionDTOMapper;
+import org.mapstruct.factory.Mappers;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
-@Setter
-@Getter
-public class VersionLightDTO {
-    private Long   id;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String groupId;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String artifactId;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String version;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String packaging;
+@Configuration
+public class InterfaceCoreMapperConfiguration {
+
+    @Bean
+    public VersionDTOMapper versionDTOMapper() {
+        return Mappers.getMapper(VersionDTOMapper.class);
+    }
 }

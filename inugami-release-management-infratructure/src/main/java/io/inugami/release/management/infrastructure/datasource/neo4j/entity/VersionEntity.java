@@ -14,24 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.domain.version.dto;
+package io.inugami.release.management.infrastructure.datasource.neo4j.entity;
 
+import io.inugami.release.management.api.domain.version.dto.VersionDTO;
 import lombok.*;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
 
 import java.util.Set;
 
-import static io.inugami.release.management.api.common.Constants.DOUBLE_DOT;
-
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
 @Setter
 @Getter
-public class VersionDTO {
-
+@Builder(toBuilder = true)
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Node("Version")
+public class VersionEntity {
+    @Id
+    @GeneratedValue
     private Long id;
+
     @ToString.Include
     @EqualsAndHashCode.Include
     private String groupId;
@@ -48,14 +54,12 @@ public class VersionDTO {
     private String  hash;
     private Boolean currentProject;
 
-    private Set<VersionDTO> dependencies;
-    private Set<VersionDTO> testDependencies;
-    private Set<VersionDTO> projectDependencies;
+    @Relationship(type = "DEPENDENCY")
+    private Set<VersionEntity> dependencies;
 
-    public static class VersionDTOBuilder {
-        public VersionDTOBuilder buildHash() {
-            this.hash = String.format(DOUBLE_DOT, groupId, artifactId, version, packaging);
-            return this;
-        }
-    }
+    @Relationship(type = "HAS_TEMPLATE")
+    private Set<VersionEntity> testDependencies;
+
+    @Relationship(type = "PROJECT_DEPENDENCY")
+    private Set<VersionEntity> projectDependencies;
 }

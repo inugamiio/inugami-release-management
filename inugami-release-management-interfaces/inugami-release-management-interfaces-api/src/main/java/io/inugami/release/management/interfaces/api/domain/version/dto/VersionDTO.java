@@ -44,7 +44,7 @@ public class VersionDTO {
     private String version;
     @ToString.Include
     @EqualsAndHashCode.Include
-    private String type;
+    private String packaging;
 
     private String  hash;
     private Boolean currentProject;
@@ -55,7 +55,7 @@ public class VersionDTO {
 
     public static class VersionDTOBuilder {
         public VersionDTOBuilder buildHash() {
-            this.hash = String.format(DOUBLE_DOT, groupId, artifactId, version, type);
+            this.hash = String.format(DOUBLE_DOT, groupId, artifactId, version, packaging);
             return this;
         }
     }

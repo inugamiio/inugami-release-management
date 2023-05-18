@@ -28,6 +28,11 @@
         </dependency>
 
         <dependency>
+            <groupId>io.inugami</groupId>
+            <artifactId>inugami_commons_spring</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>

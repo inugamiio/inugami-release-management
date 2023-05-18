@@ -42,8 +42,8 @@ public interface VersionRestClient {
     @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     VersionDTO getVersion(@PathVariable final long id);
 
-    @GetMapping(path = "{groupId}/{artifactId}/{version}/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
-    VersionDTO getVersion(@PathVariable final String groupId, @PathVariable final String artifactId, @PathVariable final String version, @PathVariable final String type);
+    @GetMapping(path = "{groupId}/{artifactId}/{version}/{packaging}", produces = MediaType.APPLICATION_JSON_VALUE)
+    VersionDTO getVersion(@PathVariable final String groupId, @PathVariable final String artifactId, @PathVariable final String version, @PathVariable final String packaging);
 
 
     // =================================================================================================================

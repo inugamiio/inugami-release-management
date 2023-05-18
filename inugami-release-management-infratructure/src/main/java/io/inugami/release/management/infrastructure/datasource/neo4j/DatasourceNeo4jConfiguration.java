@@ -14,29 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.interfaces.api.domain.version.dto;
+package io.inugami.release.management.infrastructure.datasource.neo4j;
 
-import lombok.*;
+import io.inugami.release.management.infrastructure.datasource.neo4j.mapper.VersionEntityMapper;
+import org.mapstruct.factory.Mappers;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
-@Setter
-@Getter
-public class VersionLightDTO {
-    private Long   id;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String groupId;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String artifactId;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String version;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String packaging;
+@EnableNeo4jRepositories("io.inugami.release.management.infrastructure.datasource.neo4j")
+@Configuration
+public class DatasourceNeo4jConfiguration {
+
+
+    @Bean
+    public VersionEntityMapper versionEntityMapper() {
+        return Mappers.getMapper(VersionEntityMapper.class);
+    }
 }

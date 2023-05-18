@@ -119,6 +119,12 @@
                 <artifactId>inugami_commons</artifactId>
                 <version>${io.inugami.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.inugami</groupId>
+                <artifactId>inugami_commons_spring</artifactId>
+                <version>${io.inugami.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>io.inugami</groupId>

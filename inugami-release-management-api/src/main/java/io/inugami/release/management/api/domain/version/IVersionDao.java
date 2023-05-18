@@ -32,7 +32,7 @@ public interface IVersionDao {
     // =================================================================================================================
     List<VersionDTO> getAll(final PageDTO page);
 
-    VersionDTO getVersion(String groupId, String artifactId, String version, String type);
+    VersionDTO getVersion(String groupId, String artifactId, String version, String packaging);
 
 
     VersionDTO getVersion(long id);

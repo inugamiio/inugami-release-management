@@ -42,8 +42,8 @@ class VersionLightDTOTest {
         assertThat(value.hashCode()).isNotEqualTo(value.toBuilder().version(XXX).build().hashCode());
 
         //
-        assertThat(value).isNotEqualTo(value.toBuilder().type(XXX).build());
-        assertThat(value.hashCode()).isNotEqualTo(value.toBuilder().type(XXX).build().hashCode());
+        assertThat(value).isNotEqualTo(value.toBuilder().packaging(XXX).build());
+        assertThat(value.hashCode()).isNotEqualTo(value.toBuilder().packaging(XXX).build().hashCode());
     }
 
     public static VersionLightDTO buildDataSet() {
@@ -52,7 +52,7 @@ class VersionLightDTOTest {
                          .groupId("io.inugami.release.management")
                          .artifactId("inugami-release-management-common")
                          .version("1.0.0-SNAPSHOT")
-                         .type("jar")
+                         .packaging("jar")
                          .build();
     }
 }

@@ -14,29 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.interfaces.api.domain.version.dto;
+package io.inugami.release.management.interfaces.core.domain.version.mapper;
 
-import lombok.*;
+import io.inugami.release.management.interfaces.api.domain.version.dto.VersionDTO;
+import io.inugami.release.management.interfaces.api.domain.version.dto.VersionLightDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
-@Setter
-@Getter
-public class VersionLightDTO {
-    private Long   id;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String groupId;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String artifactId;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String version;
-    @ToString.Include
-    @EqualsAndHashCode.Include
-    private String packaging;
+import java.util.Set;
+
+@Mapper
+public interface VersionDTOMapper {
+
+    VersionDTO convertToRestDto(io.inugami.release.management.api.domain.version.dto.VersionDTO dto);
+
+    VersionLightDTO convertToVersionLightDTO(io.inugami.release.management.api.domain.version.dto.VersionDTO dto);
+
+    io.inugami.release.management.api.domain.version.dto.VersionDTO convertToApiDto(VersionDTO dto);
+
+
 }

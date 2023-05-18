@@ -19,20 +19,33 @@ package io.inugami.release.management.infrastructure.domain.version;
 import io.inugami.release.management.api.common.dto.PageDTO;
 import io.inugami.release.management.api.domain.version.IVersionDao;
 import io.inugami.release.management.api.domain.version.dto.VersionDTO;
+import io.inugami.release.management.infrastructure.datasource.neo4j.entity.VersionEntity;
+import io.inugami.release.management.infrastructure.datasource.neo4j.mapper.VersionEntityMapper;
+import io.inugami.release.management.infrastructure.datasource.neo4j.repository.VersionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class VersionDao implements IVersionDao {
+
+    private final VersionRepository   versionRepository;
+    private final VersionEntityMapper versionEntityMapper;
+
     // =================================================================================================================
     // CREATE
     // =================================================================================================================
     @Override
     public VersionDTO save(final VersionDTO dto) {
-        return null;
+        final VersionEntity entity = versionEntityMapper.convertToEntity(dto);
+        final VersionEntity result = versionRepository.save(entity);
+        return versionEntityMapper.convertToDto(result);
     }
 
 
@@ -41,19 +54,30 @@ public class VersionDao implements IVersionDao {
     // =================================================================================================================
     @Override
     public List<VersionDTO> getAll(final PageDTO page) {
-        return null;
+        final PageDTO.Order       order    = page.getOrder() == null ? PageDTO.Order.ASC : page.getOrder();
+        final PageRequest         pageable = PageRequest.of(page.getPage(), page.getPageSize(), order == PageDTO.Order.ASC ? Sort.Direction.ASC : Sort.Direction.DESC);
+        final Page<VersionEntity> result   = versionRepository.findAll(pageable);
+
+        return result.get()
+                     .map(versionEntityMapper::convertToDto)
+                     .toList();
     }
 
     @Override
-    public VersionDTO getVersion(final String groupId, final String artifactId, final String version, final String type) {
-        return null;
+    public VersionDTO getVersion(final String groupId, final String artifactId, final String version, final String packaging) {
+        final Optional<VersionEntity> result = versionRepository.findByGroupIdAndArtifactIdAndVersionAndPackaging(groupId, artifactId, version, packaging);
+        return convertToDto(result);
     }
 
     @Override
     public VersionDTO getVersion(final long id) {
-        return null;
+        final Optional<VersionEntity> result = versionRepository.findById(id);
+        return convertToDto(result);
     }
 
+    private VersionDTO convertToDto(final Optional<VersionEntity> entity) {
+        return entity.isPresent() ? versionEntityMapper.convertToDto(entity.get()) : null;
+    }
 
     // =================================================================================================================
     // UPDATE
