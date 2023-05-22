@@ -17,6 +17,9 @@
     <artifactId>inugami-release-management-interfaces</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <sonar.coverage.jacoco.xmlReportPaths.relative>${project.basedir}/../..</sonar.coverage.jacoco.xmlReportPaths.relative>
+    </properties>
 
     <!-- =======================================================================
     = MODULES
