@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- =======================================================================
+    = PARENT
+    ======================================================================== -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.10</version>
+        <relativePath/>
+    </parent>
+
+    <!-- =======================================================================
+    = PROJECT
+    ======================================================================== -->
+    <groupId>io.inugami.release.management</groupId>
+    <artifactId>inugami-release-management</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <packaging>pom</packaging>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://api.github.com/repos/inugamiio/inugami-release-management</url>
+    </issueManagement>
+
+    <!-- =======================================================================
+    = PROPERTIES
+    ======================================================================== -->
+    <properties>
+        <java.version>17</java.version>
+        <super.jdk.arg>-parameters</super.jdk.arg>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <super.springboot.skip>true</super.springboot.skip>
+        <ch.qos.logback.version>1.2.10</ch.qos.logback.version>
+        <inugami.maven.plugin.analysis.display.release.note.enabled>false</inugami.maven.plugin.analysis.display.release.note.enabled>
+        <inugami.maven.plugin.analysis.project.base.name>io.inugami</inugami.maven.plugin.analysis.project.base.name>
+        <inugami.maven.plugin.analysis.writer.neo4j.url>bolt://localhost:7687
+        </inugami.maven.plugin.analysis.writer.neo4j.url>
+        <inugami.maven.plugin.analysis.writer.neo4j.user>neo4j</inugami.maven.plugin.analysis.writer.neo4j.user>
+        <inugami.maven.plugin.analysis.writer.neo4j.password>password
+        </inugami.maven.plugin.analysis.writer.neo4j.password>
+        <inugami.maven.plugin.analysis.git>true</inugami.maven.plugin.analysis.git>
+
+        <com.h2database.version>2.1.214</com.h2database.version>
+        <io.github.git-commit-id.version>5.0.0</io.github.git-commit-id.version>
+        <io.inugami.version>3.2.1-SNAPSHOT</io.inugami.version>
+        <io.inugami.maven.plugin.analysis.version>3.2.1-SNAPSHOT</io.inugami.maven.plugin.analysis.version>
+        <io.inugami.maven.plugin.lifecycle.version>2.0.1</io.inugami.maven.plugin.lifecycle.version>
+        <javax.xml.bind.version>2.3.0</javax.xml.bind.version>
+        <org.apache.maven.plugins.compiler.version>3.11.0</org.apache.maven.plugins.compiler.version>
+        <org.apache.maven.plugins.failsafe.version>3.0.0</org.apache.maven.plugins.failsafe.version>
+        <org.apache.maven.plugins.source.version>3.2.1</org.apache.maven.plugins.source.version>
+        <org.codehaus.mojo.version>3.3.0</org.codehaus.mojo.version>
+        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+        <org.owas.version>8.2.1</org.owas.version>
+        <org.pitest.version>1.12.0</org.pitest.version>
+        <org.pitest.pitest-junit5-plugin.version>1.1.2</org.pitest.pitest-junit5-plugin.version>
+        <org.pitest.source>io.inugami.*</org.pitest.source>
+        <org.pitest.test>io.inugami.*</org.pitest.test>
+        <org.projectlombok.version>1.18.26</org.projectlombok.version>
+        <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
+        <org.slf4j.version>1.7.36</org.slf4j.version>
+        <org.springdoc.version>1.7.0</org.springdoc.version>
+        <org.springframework.boot.version>3.0.5</org.springframework.boot.version>
+        <org.springframework.boot.activemq.version>2.7.10</org.springframework.boot.activemq.version>
+
+    </properties>
+
+
+    <!-- =======================================================================
+    = MODULES
+    ======================================================================== -->
+    <modules>
+        <module>inugami-release-management-api</module>
+        <module>inugami-release-management-common</module>
+        <module>inugami-release-management-core</module>
+        <module>inugami-release-management-infratructure</module>
+        <module>inugami-release-management-interfaces</module>
+        <module>inugami-release-management-webapp</module>
+    </modules>
+
+    <!-- =======================================================================
+    = dependency Management
+    ======================================================================== -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${com.h2database.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${ch.qos.logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${ch.qos.logback.version}</version>
+            </dependency>
+
+          
+
+
+            <!-- ::::::::::::::::::::::::::::::::::::::::::::::-->
+            <dependency>
+                <groupId>io.inugami</groupId>
+                <artifactId>inugami_api</artifactId>
+                <version>${io.inugami.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.inugami</groupId>
+                <artifactId>inugami_commons</artifactId>
+                <version>${io.inugami.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.inugami</groupId>
+                <artifactId>inugami_commons_spring</artifactId>
+                <version>${io.inugami.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.inugami</groupId>
+                <artifactId>inugami_logs_obfuscator</artifactId>
+                <version>${io.inugami.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.inugami</groupId>
+                <artifactId>inugami_commons_test</artifactId>
+                <version>${io.inugami.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.inugami.monitoring</groupId>
+                <artifactId>inugami_monitoring_springboot</artifactId>
+                <version>${io.inugami.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.inugami.monitoring</groupId>
+                <artifactId>inugami_monitoring_springboot_activemq</artifactId>
+                <version>${io.inugami.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.inugami.maven.plugin.analysis</groupId>
+                <artifactId>inugami-project-analysis-maven-plugin-annotations</artifactId>
+                <version>${io.inugami.maven.plugin.analysis.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.inugami.maven.plugin.analysis.front</groupId>
+                <artifactId>inugami-project-analysis-front-springboot</artifactId>
+                <version>${io.inugami.maven.plugin.analysis.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.inugami.release.management</groupId>
+                <artifactId>inugami-release-management-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.inugami.release.management</groupId>
+                <artifactId>inugami-release-management-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.inugami.release.management</groupId>
+                <artifactId>inugami-release-management-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.inugami.release.management</groupId>
+                <artifactId>inugami-release-management-infratructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.inugami.release.management</groupId>
+                <artifactId>inugami-release-management-interfaces-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.inugami.release.management</groupId>
+                <artifactId>inugami-release-management-interfaces-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${javax.xml.bind.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${org.slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${org.springdoc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${org.springframework.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-activemq</artifactId>
+                <version>${org.springframework.boot.activemq.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- =======================================================================
+    = DEPENDENCIES
+    =========================================================================-->
+    <dependencies>
+        <dependency>
+            <groupId>io.inugami</groupId>
+            <artifactId>inugami_api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
+
+
+    <!-- =======================================================================
+    = BUILD
+    ==========================================================================-->
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+            <testResource>
+                <directory>src/test_it/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${org.apache.maven.plugins.failsafe.version}</version>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <version>${io.github.git-commit-id.version}</version>
+                <executions>
+                    <execution>
+                        <id>get-git-info</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${super.springboot.skip}</skip>
+                            <excludes>
+                                <exclude>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${org.owas.version}</version>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${org.codehaus.mojo.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>add-integration-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/test_it/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${org.apache.maven.plugins.compiler.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <optimize>true</optimize>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <compilerArgs>
+                        <arg>-verbose</arg>
+                        <arg>${super.jdk.arg}</arg>
+                    </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${org.projectlombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${org.projectlombok.lombok-mapstruct-binding.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${org.apache.maven.plugins.source.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>io.inugami.maven.plugin.lifecycle</groupId>
+                <artifactId>inugami-maven-lifecycle</artifactId>
+                <version>${io.inugami.maven.plugin.lifecycle.version}</version>
+                <extensions>true</extensions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>${org.pitest.version}</version>
+                <executions>
+                    <execution>
+                        <phase>deep-test</phase>
+                        <goals>
+                            <goal>mutationCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <targetClasses>
+                        <param>${org.pitest.source}</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>${org.pitest.test}</param>
+                    </targetTests>
+                    <avoidCallsTo>
+                        <avoidCallsTo>org.slf4j</avoidCallsTo>
+                        <avoidCallsTo>org.springframework</avoidCallsTo>
+                    </avoidCallsTo>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>${org.pitest.pitest-junit5-plugin.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>io.inugami.maven.plugin.analysis</groupId>
+                <artifactId>inugami-project-analysis-maven-plugin</artifactId>
+                <version>${io.inugami.maven.plugin.analysis.version}</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>check</id>
+                        <phase>analyze</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>info</id>
+                        <phase>info</phase>
+                        <goals>
+                            <goal>retrieveInformation</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

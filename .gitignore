@@ -1,24 +1,48 @@
-# Compiled class file
+.checkstyle
+.classpath
+target
+.idea/
+*.iml
+*.iws
+!.idea/runConfigurations/
+.metadata
+.project
+.settings
+.directory
+.springBeans
+.DS_Store
+*.bak
 *.class
-
-# Log file
+*.iml
+*.launch
 *.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
+*.old
+*.orig
+*.prefs
+*.rej
+*.ser
+*~
 *.war
-*.nar
 *.ear
+*.bin
+*.exe
 *.zip
+*.7z
+*.tar
 *.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+*.tgz
+bin
+dummy.csv
+target
+node_modules
+bower_components
+dist-ts
+.idea
+.tern-project
+.npmignore
+dependency-reduced-pom.xml
+.vscode/
+*.factorypath
+pom.xml.versionsBackup
+/local_integration_test/neo4j/data/store_lock
+/local_integration_test/neo4j/data/system/

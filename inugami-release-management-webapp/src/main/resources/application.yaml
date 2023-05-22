@@ -1,0 +1,12 @@
+inugami:
+  release:
+    management:
+      domain:
+        version:
+          defaultPageSize: 50
+
+spring:
+  data:
+    neo4j:
+      username: neo4j
+      password: password

@@ -1,0 +1,1 @@
+VersionLightDTO(groupId=io.inugami.release.management, artifactId=inugami-release-management-common, version=1.0.0-SNAPSHOT, packaging=jar)

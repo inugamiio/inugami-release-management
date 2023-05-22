@@ -1,0 +1,1 @@
+package io.inugami.release.management.infrastructure;
