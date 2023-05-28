@@ -1,0 +1,10 @@
+{
+  "errorStatus" : 404,
+  "errorCode" : "VERSION-2_0",
+  "message" : "no data found",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}

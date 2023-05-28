@@ -35,8 +35,9 @@ import java.util.Optional;
 @Service
 public class VersionDao implements IVersionDao {
 
-    private final VersionRepository   versionRepository;
-    private final VersionEntityMapper versionEntityMapper;
+    public static final String              ID = "id";
+    private final       VersionRepository   versionRepository;
+    private final       VersionEntityMapper versionEntityMapper;
 
     // =================================================================================================================
     // CREATE
@@ -55,7 +56,7 @@ public class VersionDao implements IVersionDao {
     @Override
     public List<VersionDTO> getAll(final PageDTO page) {
         final PageDTO.Order       order    = page.getOrder() == null ? PageDTO.Order.ASC : page.getOrder();
-        final PageRequest         pageable = PageRequest.of(page.getPage(), page.getPageSize(), order == PageDTO.Order.ASC ? Sort.Direction.ASC : Sort.Direction.DESC);
+        final PageRequest         pageable = PageRequest.of(page.getPage(), page.getPageSize(), order == PageDTO.Order.ASC ? Sort.Direction.ASC : Sort.Direction.DESC, ID);
         final Page<VersionEntity> result   = versionRepository.findAll(pageable);
 
         return result.get()
@@ -75,6 +76,7 @@ public class VersionDao implements IVersionDao {
         return convertToDto(result);
     }
 
+
     private VersionDTO convertToDto(final Optional<VersionEntity> entity) {
         return entity.isPresent() ? versionEntityMapper.convertToDto(entity.get()) : null;
     }
@@ -82,9 +84,30 @@ public class VersionDao implements IVersionDao {
     // =================================================================================================================
     // UPDATE
     // =================================================================================================================
+    @Override
+    public VersionDTO update(final VersionDTO versionDTO) {
+        VersionEntity       result = null;
+        final VersionEntity entity = versionRepository.findById(versionDTO.getId()).orElse(null);
+        if (entity != null) {
+            entity.setGroupId(versionDTO.getGroupId());
+            entity.setArtifactId(versionDTO.getArtifactId());
+            entity.setVersion(versionDTO.getVersion());
+            entity.setPackaging(versionDTO.getPackaging());
+            entity.setPackaging(versionDTO.getPackaging());
+            entity.setCurrentProject(versionDTO.getCurrentProject());
+
+            result = versionRepository.save(entity);
+        }
+        return versionEntityMapper.convertToDto(result);
+    }
 
 
     // =================================================================================================================
     // DELETE
     // =================================================================================================================
+    @Override
+    public void delete(final Long id) {
+        versionRepository.deleteById(id);
+    }
+
 }

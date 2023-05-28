@@ -1,0 +1,11 @@
+{
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_2",
+  "message" : "version artifactId is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.artifactId",
+  "errorDomain" : "version"
+}

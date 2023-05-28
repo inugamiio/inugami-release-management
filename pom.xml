@@ -47,8 +47,8 @@
 
         <com.h2database.version>2.1.214</com.h2database.version>
         <io.github.git-commit-id.version>5.0.0</io.github.git-commit-id.version>
-        <io.inugami.version>3.2.1</io.inugami.version>
-        <io.inugami.maven.plugin.analysis.version>3.2.3</io.inugami.maven.plugin.analysis.version>
+        <io.inugami.version>3.2.2-SNAPSHOT</io.inugami.version>
+        <io.inugami.maven.plugin.analysis.version>3.2.4-SNAPSHOT</io.inugami.maven.plugin.analysis.version>
         <io.inugami.maven.plugin.lifecycle.version>2.0.1</io.inugami.maven.plugin.lifecycle.version>
         <javax.xml.bind.version>2.3.0</javax.xml.bind.version>
         <org.apache.maven.plugins.compiler.version>3.11.0</org.apache.maven.plugins.compiler.version>
@@ -93,12 +93,6 @@
     ======================================================================== -->
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${com.h2database.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
@@ -232,13 +226,6 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${org.springframework.boot.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-activemq</artifactId>
-                <version>${org.springframework.boot.activemq.version}</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 

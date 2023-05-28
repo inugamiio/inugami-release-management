@@ -1,0 +1,11 @@
+{
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-4_1",
+  "message" : "version can't be found",
+  "messageDetail" : "1",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}

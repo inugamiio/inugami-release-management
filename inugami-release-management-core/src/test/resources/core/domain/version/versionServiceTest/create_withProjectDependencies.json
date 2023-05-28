@@ -1,0 +1,11 @@
+{
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-1_6",
+  "message" : "version project dependencies should be empty",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.projectDependencies",
+  "errorDomain" : "version"
+}

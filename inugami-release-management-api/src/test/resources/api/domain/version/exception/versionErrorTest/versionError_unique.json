@@ -1,0 +1,303 @@
+[ {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-0_0",
+  "message" : "undefined error occurs",
+  "errorType" : "technical",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-1_0",
+  "message" : "version data is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-1_1",
+  "message" : "group id is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.groupId",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-1_2",
+  "message" : "artifact id is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.artifactId",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-1_3",
+  "message" : "version is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.version",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-1_4",
+  "message" : "version dependencies should be empty",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.dependencies",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-1_5",
+  "message" : "version test dependencies should be empty",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.testDependencies",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-1_6",
+  "message" : "version project dependencies should be empty",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.projectDependencies",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-1_7",
+  "message" : "version id should be null",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.id",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 404,
+  "errorCode" : "VERSION-2_0",
+  "message" : "no data found",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-2_1",
+  "message" : "group id is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "groupId",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-2_2",
+  "message" : "artifact id is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "artifactId",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-2_3",
+  "message" : "version is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "version",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-2_4",
+  "message" : "version can't be found",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-2_5",
+  "message" : "invalid id",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "id",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-2_6",
+  "message" : "version can't be found",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_0",
+  "message" : "data is required to update version",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_1",
+  "message" : "version groupId is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.groupId",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_2",
+  "message" : "version artifactId is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.artifactId",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_3",
+  "message" : "version is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.version",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_4",
+  "message" : "version dependencies shouldn't pass to update version",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.dependencies",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_5",
+  "message" : "version test dependencies shouldn't pass to update version",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.testDependencies",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_6",
+  "message" : "version project dependencies shouldn't pass to update version",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.projectDependencies",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_7",
+  "message" : "version id is requires",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.projectDependencies",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_8",
+  "message" : "version not found",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.id",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-4_0",
+  "message" : "invalid id",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "id",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-4_1",
+  "message" : "version can't be found",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-4_2",
+  "message" : "group id is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "groupId",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-4_3",
+  "message" : "artifact id is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "artifactId",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-4_4",
+  "message" : "version is required",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "version",
+  "errorDomain" : "version"
+}, {
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-4_5",
+  "message" : "version can't be found",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+} ]
