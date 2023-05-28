@@ -1,0 +1,42 @@
+{
+  "cause": {
+    "localizedMessage": "",
+    "message": "",
+    "parameters": {},
+    "stackTrace": [],
+    "suppressed": [],
+    "type": "about:blank"
+  },
+  "detail": "",
+  "localizedMessage": "group id is required: ",
+  "message": "group id is required: ",
+  "parameters": {
+    "errorCode": "VERSION-1_1",
+    "fields": [
+      {
+        "errorCode": "VERSION-1_1",
+        "errorType": "functional",
+        "message": "group id is required",
+        "name": "dto.groupId"
+      },
+      {
+        "errorCode": "VERSION-1_2",
+        "errorType": "functional",
+        "message": "artifact id is required",
+        "name": "dto.artifactId"
+      },
+      {
+        "errorCode": "VERSION-1_3",
+        "errorType": "functional",
+        "message": "version is required",
+        "name": "dto.version"
+      }
+    ],
+    "errorType": "functional"
+  },
+  "stackTrace": [],
+  "status": "BAD_REQUEST",
+  "suppressed": [],
+  "title": "group id is required",
+  "type": "about:blank"
+}

@@ -1,0 +1,31 @@
+{
+  "cause": {
+    "localizedMessage": "version not found",
+    "message": "version not found",
+    "parameters": {},
+    "stackTrace": [],
+    "suppressed": [],
+    "title": "version not found",
+    "type": "about:blank"
+  },
+  "detail": "",
+  "localizedMessage": "version not found: ",
+  "message": "version not found: ",
+  "parameters": {
+    "errorCode": "VERSION-3_8",
+    "fields": [
+      {
+        "errorCode": "VERSION-3_8",
+        "errorType": "functional",
+        "message": "version not found",
+        "name": "dto.id"
+      }
+    ],
+    "errorType": "functional"
+  },
+  "stackTrace": [],
+  "status": "NOT_FOUND",
+  "suppressed": [],
+  "title": "version not found",
+  "type": "about:blank"
+}

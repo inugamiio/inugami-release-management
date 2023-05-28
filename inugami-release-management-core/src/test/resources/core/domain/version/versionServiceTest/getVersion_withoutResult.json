@@ -1,5 +1,5 @@
 {
-  "errorStatus" : 400,
+  "errorStatus" : 404,
   "errorCode" : "VERSION-2_4",
   "message" : "version can't be found",
   "messageDetail" : "io.inugami.release.management:inugami-release-management-common:1.0.0-SNAPSHOT:jar",

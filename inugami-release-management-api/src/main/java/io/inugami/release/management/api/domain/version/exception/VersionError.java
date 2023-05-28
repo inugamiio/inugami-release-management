@@ -131,7 +131,7 @@ public enum VersionError implements ErrorCode {
 
     READ_VERSION_NOT_FOUND(newBuilder()
                                    .errorCode("VERSION-2_4")
-                                   .statusCode(400)
+                                   .statusCode(404)
                                    .message("version can't be found")
                                    .errorTypeFunctional()
                                    .domain(VersionError.DOMAIN)),
@@ -146,7 +146,7 @@ public enum VersionError implements ErrorCode {
 
     READ_VERSION_NOT_FOUND_WITH_ID(newBuilder()
                                            .errorCode("VERSION-2_6")
-                                           .statusCode(400)
+                                           .statusCode(404)
                                            .message("version can't be found")
                                            .errorTypeFunctional()
                                            .domain(VersionError.DOMAIN)),
@@ -216,7 +216,7 @@ public enum VersionError implements ErrorCode {
 
     UPDATE_VERSION_NOT_FOUND(newBuilder()
                                      .errorCode("VERSION-3_8")
-                                     .statusCode(400)
+                                     .statusCode(404)
                                      .message("version not found")
                                      .errorTypeFunctional()
                                      .field("dto.id")
@@ -234,7 +234,7 @@ public enum VersionError implements ErrorCode {
 
     DELETE_VERSION_NOT_FOUND_WITH_ID(newBuilder()
                                              .errorCode("VERSION-4_1")
-                                             .statusCode(400)
+                                             .statusCode(404)
                                              .message("version can't be found")
                                              .errorTypeFunctional()
                                              .domain(VersionError.DOMAIN)),
@@ -265,7 +265,7 @@ public enum VersionError implements ErrorCode {
 
     DELETE_VERSION_NOT_FOUND(newBuilder()
                                      .errorCode("VERSION-4_5")
-                                     .statusCode(400)
+                                     .statusCode(404)
                                      .message("version can't be found")
                                      .errorTypeFunctional()
                                      .domain(VersionError.DOMAIN)),

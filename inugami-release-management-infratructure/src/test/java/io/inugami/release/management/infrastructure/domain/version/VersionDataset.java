@@ -34,6 +34,38 @@ public class VersionDataset {
                             .build();
     }
 
+    public static VersionEntity versionEntity() {
+        return VersionEntity.builder()
+                            .id(1L)
+                            .groupId("io.inugami.release.management")
+                            .artifactId("inugami-release-management-common")
+                            .version("1.0.0-SNAPSHOT")
+                            .packaging("jar")
+                            .dependencies(Set.of(VersionEntity.builder()
+                                                              .id(2L)
+                                                              .groupId("org.slf4j")
+                                                              .artifactId("slf4j-api")
+                                                              .version("1.7.36")
+                                                              .packaging("jar")
+                                                              .build()))
+                            .testDependencies(Set.of(VersionEntity.builder()
+                                                                  .id(3L)
+                                                                  .groupId("io.inugami")
+                                                                  .artifactId("inugami_commons_test")
+                                                                  .version("3.2.0")
+                                                                  .packaging("jar")
+                                                                  .build()))
+                            .projectDependencies(Set.of(VersionEntity.builder()
+                                                                     .id(1L)
+                                                                     .groupId("io.inugami.release.management")
+                                                                     .artifactId("inugami-release-management-api")
+                                                                     .version("1.0.0-SNAPSHOT")
+                                                                     .packaging("jar")
+                                                                     .build()))
+                            .build();
+    }
+
+
     public static VersionDTO versionDTOLight() {
         return VersionDTO.builder()
                          .id(1L)

@@ -1,5 +1,5 @@
 {
-  "errorStatus" : 400,
+  "errorStatus" : 404,
   "errorCode" : "VERSION-4_1",
   "message" : "version can't be found",
   "messageDetail" : "1",

@@ -1,0 +1,11 @@
+{
+  "artifactId": "test",
+  "dependencies": [],
+  "groupId": "io.inugami.test",
+  "hash": "io.inugami.test:test:1.0.2-SNAPSHOT:jar",
+  "id": 151,
+  "packaging": "jar",
+  "projectDependencies": [],
+  "testDependencies": [],
+  "version": "1.0.2-SNAPSHOT"
+}

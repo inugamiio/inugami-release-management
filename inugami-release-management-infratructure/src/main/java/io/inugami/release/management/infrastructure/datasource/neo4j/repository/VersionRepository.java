@@ -33,4 +33,17 @@ public interface VersionRepository extends Neo4jRepository<VersionEntity, Long> 
             RETURN d
             """)
     List<VersionEntity> searchVersionUsing(final String groupId, final String artifactId, final String version, final String packaging);
+
+
+    @Query("""
+            MATCH (v:Version) where id(v)=$id
+            RETURN v
+            """)
+    Optional<VersionEntity> getVersionLight(long id);
+
+    @Query("""
+            MATCH (v:Version) where v.groupId=$groupId AND v.artifactId=$artifactId AND v.version=$version  AND v.packaging=$packaging
+            RETURN v
+            """)
+    Optional<VersionEntity> getVersionLight(String groupId, String artifactId, String version, String packaging);
 }

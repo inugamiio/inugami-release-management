@@ -1,0 +1,24 @@
+{
+  "cause": {
+    "localizedMessage": "version can't be found",
+    "message": "version can't be found",
+    "parameters": {},
+    "stackTrace": [],
+    "suppressed": [],
+    "title": "version can't be found",
+    "type": "about:blank"
+  },
+  "detail": "37",
+  "localizedMessage": "version can't be found: 37",
+  "message": "version can't be found: 37",
+  "parameters": {
+    "errorCode": "VERSION-4_1",
+    "fields": [],
+    "errorType": "functional"
+  },
+  "stackTrace": [],
+  "status": "BAD_REQUEST",
+  "suppressed": [],
+  "title": "version can't be found",
+  "type": "about:blank"
+}

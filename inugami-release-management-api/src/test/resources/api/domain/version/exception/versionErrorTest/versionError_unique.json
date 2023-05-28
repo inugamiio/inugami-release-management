@@ -126,7 +126,7 @@
   "field" : "version",
   "errorDomain" : "version"
 }, {
-  "errorStatus" : 400,
+  "errorStatus" : 404,
   "errorCode" : "VERSION-2_4",
   "message" : "version can't be found",
   "errorType" : "functional",
@@ -145,7 +145,7 @@
   "field" : "id",
   "errorDomain" : "version"
 }, {
-  "errorStatus" : 400,
+  "errorStatus" : 404,
   "errorCode" : "VERSION-2_6",
   "message" : "version can't be found",
   "errorType" : "functional",
@@ -233,7 +233,7 @@
   "field" : "dto.projectDependencies",
   "errorDomain" : "version"
 }, {
-  "errorStatus" : 400,
+  "errorStatus" : 404,
   "errorCode" : "VERSION-3_8",
   "message" : "version not found",
   "errorType" : "functional",
@@ -253,7 +253,7 @@
   "field" : "id",
   "errorDomain" : "version"
 }, {
-  "errorStatus" : 400,
+  "errorStatus" : 404,
   "errorCode" : "VERSION-4_1",
   "message" : "version can't be found",
   "errorType" : "functional",
@@ -292,7 +292,7 @@
   "field" : "version",
   "errorDomain" : "version"
 }, {
-  "errorStatus" : 400,
+  "errorStatus" : 404,
   "errorCode" : "VERSION-4_5",
   "message" : "version can't be found",
   "errorType" : "functional",

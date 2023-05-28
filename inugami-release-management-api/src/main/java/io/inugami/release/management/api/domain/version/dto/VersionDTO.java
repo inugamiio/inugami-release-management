@@ -31,7 +31,7 @@ import static io.inugami.release.management.api.common.Constants.DOUBLE_DOT;
 @Getter
 public class VersionDTO {
 
-    private Long id;
+    private Long   id;
     @ToString.Include
     @EqualsAndHashCode.Include
     private String groupId;
@@ -54,7 +54,7 @@ public class VersionDTO {
 
     public static class VersionDTOBuilder {
         public VersionDTOBuilder buildHash() {
-            this.hash = String.format(DOUBLE_DOT, groupId, artifactId, version, packaging);
+            this.hash = String.join(DOUBLE_DOT, groupId, artifactId, version, packaging);
             return this;
         }
     }

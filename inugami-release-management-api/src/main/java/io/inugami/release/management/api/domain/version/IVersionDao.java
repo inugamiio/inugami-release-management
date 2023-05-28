@@ -37,6 +37,9 @@ public interface IVersionDao {
 
     VersionDTO getVersion(long id);
 
+    VersionDTO getVersionLight(long id);
+
+    VersionDTO getVersionLight(String groupId, String artifactId, String version, String currentType);
 
     // =================================================================================================================
     // UPDATE
@@ -50,3 +53,4 @@ public interface IVersionDao {
 
 
 }
+

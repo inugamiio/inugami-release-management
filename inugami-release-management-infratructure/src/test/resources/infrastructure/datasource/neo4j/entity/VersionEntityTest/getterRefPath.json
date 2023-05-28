@@ -1,0 +1,28 @@
+{
+  "getArtifactId" : "inugami-release-management-common",
+  "getDependencies" : [ {
+    "artifactId" : "slf4j-api",
+    "groupId" : "org.slf4j",
+    "id" : 2,
+    "packaging" : "jar",
+    "version" : "1.7.36"
+  } ],
+  "getGroupId" : "io.inugami.release.management",
+  "getId" : 1,
+  "getPackaging" : "jar",
+  "getProjectDependencies" : [ {
+    "artifactId" : "inugami-release-management-api",
+    "groupId" : "io.inugami.release.management",
+    "id" : 1,
+    "packaging" : "jar",
+    "version" : "1.0.0-SNAPSHOT"
+  } ],
+  "getTestDependencies" : [ {
+    "artifactId" : "inugami_commons_test",
+    "groupId" : "io.inugami",
+    "id" : 3,
+    "packaging" : "jar",
+    "version" : "3.2.0"
+  } ],
+  "getVersion" : "1.0.0-SNAPSHOT"
+}

@@ -27,9 +27,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import static io.inugami.api.functionnals.FunctionalUtils.applyIfNotNull;
 
 @RequiredArgsConstructor
 @Service
@@ -42,6 +45,7 @@ public class VersionDao implements IVersionDao {
     // =================================================================================================================
     // CREATE
     // =================================================================================================================
+    @Transactional
     @Override
     public VersionDTO save(final VersionDTO dto) {
         final VersionEntity entity = versionEntityMapper.convertToEntity(dto);
@@ -76,26 +80,39 @@ public class VersionDao implements IVersionDao {
         return convertToDto(result);
     }
 
+    @Override
+    public VersionDTO getVersionLight(final long id) {
+        final Optional<VersionEntity> result = versionRepository.getVersionLight(id);
+        return result.isPresent() ? versionEntityMapper.convertToDtoLight(result.get()) : null;
+    }
 
-    private VersionDTO convertToDto(final Optional<VersionEntity> entity) {
+    @Override
+    public VersionDTO getVersionLight(final String groupId, final String artifactId, final String version, final String currentType) {
+        final Optional<VersionEntity> result = versionRepository.getVersionLight(groupId, artifactId, version, currentType);
+        return result.isPresent() ? versionEntityMapper.convertToDtoLight(result.get()) : null;
+    }
+
+
+    protected VersionDTO convertToDto(final Optional<VersionEntity> entity) {
         return entity.isPresent() ? versionEntityMapper.convertToDto(entity.get()) : null;
     }
 
     // =================================================================================================================
     // UPDATE
     // =================================================================================================================
+    @Transactional
     @Override
     public VersionDTO update(final VersionDTO versionDTO) {
         VersionEntity       result = null;
         final VersionEntity entity = versionRepository.findById(versionDTO.getId()).orElse(null);
         if (entity != null) {
-            entity.setGroupId(versionDTO.getGroupId());
-            entity.setArtifactId(versionDTO.getArtifactId());
-            entity.setVersion(versionDTO.getVersion());
-            entity.setPackaging(versionDTO.getPackaging());
-            entity.setPackaging(versionDTO.getPackaging());
-            entity.setCurrentProject(versionDTO.getCurrentProject());
+            applyIfNotNull(versionDTO.getGroupId(), entity::setGroupId);
+            applyIfNotNull(versionDTO.getArtifactId(), entity::setArtifactId);
+            applyIfNotNull(versionDTO.getVersion(), entity::setVersion);
+            applyIfNotNull(versionDTO.getPackaging(), entity::setPackaging);
+            applyIfNotNull(versionDTO.getCurrentProject(), entity::setCurrentProject);
 
+            entity.buildName();
             result = versionRepository.save(entity);
         }
         return versionEntityMapper.convertToDto(result);
@@ -105,6 +122,7 @@ public class VersionDao implements IVersionDao {
     // =================================================================================================================
     // DELETE
     // =================================================================================================================
+    @Transactional
     @Override
     public void delete(final Long id) {
         versionRepository.deleteById(id);

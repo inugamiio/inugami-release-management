@@ -28,75 +28,75 @@ class VersionServiceTest {
 
     public static final String      VERSION_NOMINAL_RESPONSE  = """
             {
-              "artifactId" : "inugami-release-management-common",
-              "groupId" : "io.inugami.release.management",
-              "hash" : ":",
-              "id" : 1,
-              "packaging" : "jar",
-              "version" : "1.0.0-SNAPSHOT"
-            }
+               "artifactId" : "inugami-release-management-common",
+               "groupId" : "io.inugami.release.management",
+               "hash" : "io.inugami.release.management:inugami-release-management-common:1.0.0-SNAPSHOT:jar",
+               "id" : 1,
+               "packaging" : "jar",
+               "version" : "1.0.0-SNAPSHOT"
+             }
             """;
     public static final String      VERSIONS_NOMINAL_RESPONSE = """
             [ {
-              "artifactId" : "inugami-release-management-common",
-              "dependencies" : [ {
-                "artifactId" : "slf4j-api",
-                "groupId" : "org.slf4j",
-                "id" : 2,
-                "packaging" : "jar",
-                "version" : "1.7.36"
-              } ],
-              "groupId" : "io.inugami.release.management",
-              "hash" : ":",
-              "id" : 1,
-              "packaging" : "jar",
-              "projectDependencies" : [ {
-                "artifactId" : "inugami-release-management-api",
-                "groupId" : "io.inugami.release.management",
-                "id" : 1,
-                "packaging" : "jar",
-                "version" : "1.0.0-SNAPSHOT"
-              } ],
-              "testDependencies" : [ {
-                "artifactId" : "inugami_commons_test",
-                "groupId" : "io.inugami",
-                "id" : 3,
-                "packaging" : "jar",
-                "version" : "3.2.0"
-              } ],
-              "version" : "1.0.0-SNAPSHOT"
-            } ]
+                 "artifactId" : "inugami-release-management-common",
+                 "dependencies" : [ {
+                   "artifactId" : "slf4j-api",
+                   "groupId" : "org.slf4j",
+                   "id" : 2,
+                   "packaging" : "jar",
+                   "version" : "1.7.36"
+                 } ],
+                 "groupId" : "io.inugami.release.management",
+                 "hash" : "io.inugami.release.management:inugami-release-management-common:1.0.0-SNAPSHOT:jar",
+                 "id" : 1,
+                 "packaging" : "jar",
+                 "projectDependencies" : [ {
+                   "artifactId" : "inugami-release-management-api",
+                   "groupId" : "io.inugami.release.management",
+                   "id" : 1,
+                   "packaging" : "jar",
+                   "version" : "1.0.0-SNAPSHOT"
+                 } ],
+                 "testDependencies" : [ {
+                   "artifactId" : "inugami_commons_test",
+                   "groupId" : "io.inugami",
+                   "id" : 3,
+                   "packaging" : "jar",
+                   "version" : "3.2.0"
+                 } ],
+                 "version" : "1.0.0-SNAPSHOT"
+               } ]
             """;
     public static final String      VERSION_DETAIL_NOMINAL    = """
             {
-              "artifactId" : "inugami-release-management-common",
-              "dependencies" : [ {
-                "artifactId" : "slf4j-api",
-                "groupId" : "org.slf4j",
-                "id" : 2,
-                "packaging" : "jar",
-                "version" : "1.7.36"
-              } ],
-              "groupId" : "io.inugami.release.management",
-              "hash" : ":",
-              "id" : 1,
-              "packaging" : "jar",
-              "projectDependencies" : [ {
-                "artifactId" : "inugami-release-management-api",
-                "groupId" : "io.inugami.release.management",
-                "id" : 1,
-                "packaging" : "jar",
-                "version" : "1.0.0-SNAPSHOT"
-              } ],
-              "testDependencies" : [ {
-                "artifactId" : "inugami_commons_test",
-                "groupId" : "io.inugami",
-                "id" : 3,
-                "packaging" : "jar",
-                "version" : "3.2.0"
-              } ],
-              "version" : "1.0.0-SNAPSHOT"
-            }
+               "artifactId" : "inugami-release-management-common",
+               "dependencies" : [ {
+                 "artifactId" : "slf4j-api",
+                 "groupId" : "org.slf4j",
+                 "id" : 2,
+                 "packaging" : "jar",
+                 "version" : "1.7.36"
+               } ],
+               "groupId" : "io.inugami.release.management",
+               "hash" : "io.inugami.release.management:inugami-release-management-common:1.0.0-SNAPSHOT:jar",
+               "id" : 1,
+               "packaging" : "jar",
+               "projectDependencies" : [ {
+                 "artifactId" : "inugami-release-management-api",
+                 "groupId" : "io.inugami.release.management",
+                 "id" : 1,
+                 "packaging" : "jar",
+                 "version" : "1.0.0-SNAPSHOT"
+               } ],
+               "testDependencies" : [ {
+                 "artifactId" : "inugami_commons_test",
+                 "groupId" : "io.inugami",
+                 "id" : 3,
+                 "packaging" : "jar",
+                 "version" : "3.2.0"
+               } ],
+               "version" : "1.0.0-SNAPSHOT"
+             }
             """;
     public static final String      GROUP_ID                  = "io.inugami.release.management";
     public static final String      ARTIFACT_ID               = "inugami-release-management-common";
@@ -321,7 +321,7 @@ class VersionServiceTest {
     // =================================================================================================================
     @Test
     void update_nominal() {
-        when(versionDao.getVersion(anyLong())).thenReturn(VersionDTO.builder().id(1L).build());
+        when(versionDao.getVersionLight(anyLong())).thenReturn(VersionDTO.builder().id(1L).build());
         when(versionDao.update(any())).thenAnswer(answer -> answer.getArgument(0));
         final VersionDTO versionDto = versionDTO().toBuilder()
                                                   .dependencies(null)
@@ -334,7 +334,7 @@ class VersionServiceTest {
                 {
                   "artifactId" : "inugami-release-management-common",
                   "groupId" : "io.inugami.release.management",
-                  "hash" : ":",
+                  "hash" : "io.inugami.release.management:inugami-release-management-common:1.0.0-SNAPSHOT:jar",
                   "id" : 1,
                   "packaging" : "jar",
                   "version" : "1.0.0-SNAPSHOT"
@@ -349,62 +349,6 @@ class VersionServiceTest {
                      "core/domain/version/versionServiceTest/update_withoutData.json");
     }
 
-    @Test
-    void update_withoutGroupId() {
-        assertThrows(VersionError.UPDATE_GROUP_ID_REQUIRED,
-                     () -> buildService().update(versionDTO().toBuilder()
-                                                             .groupId(null)
-                                                             .build()),
-                     "core/domain/version/versionServiceTest/update_withoutGroupId.json");
-    }
-
-    @Test
-    void update_withoutArtifactId() {
-        assertThrows(VersionError.UPDATE_ARTIFACT_ID_REQUIRED,
-                     () -> buildService().update(versionDTO().toBuilder()
-                                                             .artifactId(null)
-                                                             .build()),
-                     "core/domain/version/versionServiceTest/update_withoutArtifactId.json");
-    }
-
-    @Test
-    void update_withoutVersion() {
-        assertThrows(VersionError.UPDATE_VERSION_REQUIRED,
-                     () -> buildService().update(versionDTO().toBuilder()
-                                                             .version(null)
-                                                             .build()),
-                     "core/domain/version/versionServiceTest/update_withoutVersion.json");
-    }
-
-    @Test
-    void update_withDependencies() {
-        assertThrows(VersionError.UPDATE_VERSION_DEPENDENCIES_SHOULD_BE_EMPTY,
-                     () -> buildService().update(versionDTO().toBuilder()
-                                                             .testDependencies(null)
-                                                             .projectDependencies(null)
-                                                             .build()),
-                     "core/domain/version/versionServiceTest/update_withDependencies.json");
-    }
-
-    @Test
-    void update_withTestDependencies() {
-        assertThrows(VersionError.UPDATE_VERSION_TEST_DEPENDENCIES_SHOULD_BE_EMPTY,
-                     () -> buildService().update(versionDTO().toBuilder()
-                                                             .dependencies(null)
-                                                             .projectDependencies(null)
-                                                             .build()),
-                     "core/domain/version/versionServiceTest/update_withTestDependencies.json");
-    }
-
-    @Test
-    void update_withProjectDependencies() {
-        assertThrows(VersionError.UPDATE_VERSION_PROJECT_DEPENDENCIES_SHOULD_BE_EMPTY,
-                     () -> buildService().update(versionDTO().toBuilder()
-                                                             .dependencies(null)
-                                                             .testDependencies(null)
-                                                             .build()),
-                     "core/domain/version/versionServiceTest/update_withProjectDependencies.json");
-    }
 
     @Test
     void update_withoutId() {
@@ -435,9 +379,9 @@ class VersionServiceTest {
     // =================================================================================================================
     @Test
     void delete_withId_nominal() {
-        when(versionDao.getVersion(1L)).thenReturn(VersionDTO.builder()
-                                                             .id(1L)
-                                                             .build());
+        when(versionDao.getVersionLight(1L)).thenReturn(VersionDTO.builder()
+                                                                  .id(1L)
+                                                                  .build());
         buildService().delete(1L);
         verify(versionDao).delete(1L);
     }
@@ -454,6 +398,46 @@ class VersionServiceTest {
         assertThrows(VersionError.DELETE_VERSION_NOT_FOUND_WITH_ID,
                      () -> buildService().delete(1),
                      "core/domain/version/versionServiceTest/delete_withId_withVersionNotFound.json");
+    }
+
+
+    @Test
+    void delete_withGav_nominal() {
+        when(versionDao.getVersionLight(GROUP_ID, ARTIFACT_ID, VERSION, TYPE)).thenReturn(VersionDTO.builder()
+                                                                                                    .id(1L)
+                                                                                                    .build());
+        buildService().delete(GROUP_ID, ARTIFACT_ID, VERSION, TYPE);
+        verify(versionDao).delete(1L);
+    }
+
+    @Test
+    void delete_withGav_withoutPackaging() {
+        when(versionDao.getVersionLight(GROUP_ID, ARTIFACT_ID, VERSION, TYPE)).thenReturn(VersionDTO.builder()
+                                                                                                    .id(1L)
+                                                                                                    .build());
+        buildService().delete(GROUP_ID, ARTIFACT_ID, VERSION, null);
+        verify(versionDao).delete(1L);
+    }
+
+    @Test
+    void delete_withGav_withoutGroupId() {
+        assertThrows(VersionError.DELETE_GROUP_ID_REQUIRED,
+                     () -> buildService().delete(null, ARTIFACT_ID, VERSION, TYPE),
+                     "core/domain/version/versionServiceTest/delete_withGav_withoutGroupId.json");
+    }
+
+    @Test
+    void delete_withGav_withoutArtifactId() {
+        assertThrows(VersionError.DELETE_ARTIFACT_ID_REQUIRED,
+                     () -> buildService().delete(GROUP_ID, null, VERSION, TYPE),
+                     "core/domain/version/versionServiceTest/delete_withGav_withoutArtifactId.json");
+    }
+
+    @Test
+    void delete_withGav_withoutVersion() {
+        assertThrows(VersionError.DELETE_VERSION_REQUIRED,
+                     () -> buildService().delete(GROUP_ID, ARTIFACT_ID, null, TYPE),
+                     "core/domain/version/versionServiceTest/delete_withGav_withoutVersion.json");
     }
 
     // =================================================================================================================

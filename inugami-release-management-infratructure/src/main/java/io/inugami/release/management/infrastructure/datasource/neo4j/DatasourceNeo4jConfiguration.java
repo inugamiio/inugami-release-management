@@ -21,7 +21,9 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@EnableTransactionManagement
 @EnableNeo4jRepositories("io.inugami.release.management.infrastructure.datasource.neo4j")
 @Configuration
 public class DatasourceNeo4jConfiguration {

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static io.inugami.commons.test.UnitTestHelper.assertDto;
 import static io.inugami.release.management.interfaces.api.common.Constants.XXX;
 import static org.assertj.core.api.Assertions.assertThat;
+
 class VersionLightDTOTest {
 
     @Test
@@ -13,9 +14,9 @@ class VersionLightDTOTest {
         assertDto(new AssertDtoContext<VersionLightDTO>()
                           .toBuilder()
                           .objectClass(VersionLightDTO.class)
-                          .fullArgConstructorRefPath("interface/domain/version/dto/versionLightDTOTest/fullArgConstructorRefPath.json")
-                          .getterRefPath("interface/domain/version/dto/versionLightDTOTest/getterRefPath.json")
-                          .toStringRefPath("interface/domain/version/dto/versionLightDTOTest/toStringRefPath.txt")
+                          .fullArgConstructorRefPath("interface/domain/version/dto/versionLightDTO/nominal.json")
+                          .getterRefPath("interface/domain/version/dto/versionLightDTO/getterRefPath.json")
+                          .toStringRefPath("interface/domain/version/dto/versionLightDTO/toStringRefPath.txt")
                           .cloneFunction(instance -> instance.toBuilder().build())
                           .noArgConstructor(() -> new VersionLightDTO())
                           .fullArgConstructor(VersionLightDTOTest::buildDataSet)
@@ -48,11 +49,11 @@ class VersionLightDTOTest {
 
     public static VersionLightDTO buildDataSet() {
         return VersionLightDTO.builder()
-                         .id(1L)
-                         .groupId("io.inugami.release.management")
-                         .artifactId("inugami-release-management-common")
-                         .version("1.0.0-SNAPSHOT")
-                         .packaging("jar")
-                         .build();
+                              .id(1L)
+                              .groupId("io.inugami.release.management")
+                              .artifactId("inugami-release-management-common")
+                              .version("1.0.0-SNAPSHOT")
+                              .packaging("jar")
+                              .build();
     }
 }

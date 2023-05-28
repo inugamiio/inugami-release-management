@@ -1,5 +1,5 @@
 {
-  "errorStatus" : 400,
+  "errorStatus" : 404,
   "errorCode" : "VERSION-3_8",
   "message" : "version not found",
   "errorType" : "functional",

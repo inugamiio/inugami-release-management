@@ -1,0 +1,24 @@
+{
+  "cause": {
+    "localizedMessage": "version can't be found",
+    "message": "version can't be found",
+    "parameters": {},
+    "stackTrace": [],
+    "suppressed": [],
+    "title": "version can't be found",
+    "type": "about:blank"
+  },
+  "detail": "io.inugami.springboot.demo.user:inugami-springboot-demo-user-core:3.0.000-SNAPSHOT:jar",
+  "localizedMessage": "version can't be found: io.inugami.springboot.demo.user:inugami-springboot-demo-user-core:3.0.000-SNAPSHOT:jar",
+  "message": "version can't be found: io.inugami.springboot.demo.user:inugami-springboot-demo-user-core:3.0.000-SNAPSHOT:jar",
+  "parameters": {
+    "errorCode": "VERSION-2_4",
+    "fields": [],
+    "errorType": "functional"
+  },
+  "stackTrace": [],
+  "status": "NOT_FOUND",
+  "suppressed": [],
+  "title": "version can't be found",
+  "type": "about:blank"
+}

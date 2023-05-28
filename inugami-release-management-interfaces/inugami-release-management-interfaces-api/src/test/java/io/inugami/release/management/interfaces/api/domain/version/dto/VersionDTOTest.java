@@ -17,9 +17,9 @@ class VersionDTOTest {
         assertDto(new AssertDtoContext<VersionDTO>()
                           .toBuilder()
                           .objectClass(VersionDTO.class)
-                          .fullArgConstructorRefPath("interface/domain/version/dto/versionDTOTest/fullArgConstructorRefPath.json")
-                          .getterRefPath("interface/domain/version/dto/versionDTOTest/getterRefPath.json")
-                          .toStringRefPath("interface/domain/version/dto/versionDTOTest/toStringRefPath.txt")
+                          .fullArgConstructorRefPath("interface/domain/version/dto/versionDTO/nominal.json")
+                          .getterRefPath("interface/domain/version/dto/versionDTO/getterRefPath.json")
+                          .toStringRefPath("interface/domain/version/dto/versionDTO/toStringRefPath.txt")
                           .cloneFunction(instance -> instance.toBuilder().build())
                           .noArgConstructor(() -> new VersionDTO())
                           .fullArgConstructor(VersionDTOTest::buildDataSet)
@@ -57,7 +57,6 @@ class VersionDTOTest {
                          .artifactId("inugami-release-management-common")
                          .version("1.0.0-SNAPSHOT")
                          .packaging("jar")
-                         .buildHash()
                          .dependencies(Set.of(VersionDTO.builder()
                                                         .id(2L)
                                                         .groupId("org.slf4j")
@@ -79,6 +78,8 @@ class VersionDTOTest {
                                                                .version("1.0.0-SNAPSHOT")
                                                                .packaging("jar")
                                                                .build()))
+
+                         .buildHash()
                          .build();
     }
 }

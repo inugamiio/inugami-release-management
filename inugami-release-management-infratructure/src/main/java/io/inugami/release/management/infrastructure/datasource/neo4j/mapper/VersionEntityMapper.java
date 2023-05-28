@@ -28,24 +28,36 @@ import java.util.Set;
 @Mapper
 public interface VersionEntityMapper {
 
+    @Mapping(target = "name", source = "hash")
     VersionEntity convertToEntity(VersionDTO dto);
 
+    @Mapping(target = "hash", source = "name")
     @Mapping(target = "dependencies", expression = "java(convertSubEntity(entity.getDependencies()))")
     @Mapping(target = "testDependencies", expression = "java(convertSubEntity(entity.getTestDependencies()))")
     @Mapping(target = "projectDependencies", expression = "java(convertSubEntity(entity.getProjectDependencies()))")
     VersionDTO convertToDto(VersionEntity entity);
 
-    default Set<VersionDTO> convertSubEntity(Collection<VersionEntity> entities) {
+    default Set<VersionDTO> convertSubEntity(final Collection<VersionEntity> entities) {
 
-        Set<VersionDTO> result = new LinkedHashSet<>();
+        final Set<VersionDTO> result = new LinkedHashSet<>();
         if (entities != null) {
-            for (VersionEntity versionEntity : entities) {
-                result.add(convertToDto(versionEntity));
+            for (final VersionEntity versionEntity : entities) {
+                result.add(VersionDTO.builder()
+                                     .id(versionEntity.getId())
+                                     .groupId(versionEntity.getGroupId())
+                                     .artifactId(versionEntity.getArtifactId())
+                                     .version(versionEntity.getVersion())
+                                     .packaging(versionEntity.getPackaging())
+                                     .build());
             }
         }
         return result;
     }
 
-
+    @Mapping(target = "hash", source = "name")
+    @Mapping(target = "dependencies", ignore = true)
+    @Mapping(target = "testDependencies", ignore = true)
+    @Mapping(target = "projectDependencies", ignore = true)
+    VersionDTO convertToDtoLight(VersionEntity entity);
 }
 

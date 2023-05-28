@@ -16,7 +16,6 @@
  */
 package io.inugami.release.management.infrastructure.datasource.neo4j.entity;
 
-import io.inugami.release.management.api.domain.version.dto.VersionDTO;
 import lombok.*;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -25,18 +24,24 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 
 import java.util.Set;
 
+import static io.inugami.release.management.api.common.Constants.DOUBLE_DOT;
+
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Setter
 @Getter
 @Builder(toBuilder = true)
-@ToString
+@ToString(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Node("Version")
 public class VersionEntity {
+    @ToString.Include
     @Id
     @GeneratedValue
     private Long id;
+
+    @ToString.Include
+    private String name;
 
     @ToString.Include
     @EqualsAndHashCode.Include
@@ -51,7 +56,6 @@ public class VersionEntity {
     @EqualsAndHashCode.Include
     private String packaging;
 
-    private String  hash;
     private Boolean currentProject;
 
     @Relationship(type = "DEPENDENCY")
@@ -62,4 +66,10 @@ public class VersionEntity {
 
     @Relationship(type = "PROJECT_DEPENDENCY")
     private Set<VersionEntity> projectDependencies;
+
+    public VersionEntity buildName() {
+        name = String.join(DOUBLE_DOT, groupId, artifactId, version, packaging);
+        return this;
+    }
+
 }

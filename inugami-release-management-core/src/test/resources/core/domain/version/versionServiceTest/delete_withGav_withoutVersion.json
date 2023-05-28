@@ -1,11 +1,11 @@
 {
   "errorStatus" : 400,
-  "errorCode" : "VERSION-3_3",
+  "errorCode" : "VERSION-4_4",
   "message" : "version is required",
   "errorType" : "functional",
   "exploitationError" : false,
   "rollback" : false,
   "retryable" : false,
-  "field" : "dto.version",
+  "field" : "version",
   "errorDomain" : "version"
 }
