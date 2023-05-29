@@ -23,9 +23,20 @@
     ======================================================================== -->
     <dependencies>
         <dependency>
+            <groupId>io.inugami</groupId>
+            <artifactId>inugami_commons</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.inugami.release.management</groupId>
             <artifactId>inugami-release-management-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.inugami.release.management</groupId>
+            <artifactId>inugami-release-management-common</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -38,9 +49,72 @@
         </dependency>
 
         <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-nop</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-kernel</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-nop</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-bolt</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-nop</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
             <groupId>io.inugami</groupId>
             <artifactId>inugami_commons_test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>io.inugami.monitoring</groupId>
+            <artifactId>inugami_monitoring_springboot</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 </project>
