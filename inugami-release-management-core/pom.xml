@@ -23,8 +23,18 @@
     ======================================================================== -->
     <dependencies>
         <dependency>
+            <groupId>io.inugami</groupId>
+            <artifactId>inugami_commons</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.inugami.release.management</groupId>
             <artifactId>inugami-release-management-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
         </dependency>
 
         <dependency>
