@@ -1,0 +1,72 @@
+[
+  {
+    "artifactId": "spring-jcl",
+    "groupId": "org.springframework",
+    "id": 49,
+    "packaging": "jar",
+    "version": "5.3.26"
+  },
+  {
+    "artifactId": "spring-expression",
+    "groupId": "org.springframework",
+    "id": 51,
+    "packaging": "jar",
+    "version": "5.3.26"
+  },
+  {
+    "artifactId": "inugami_commons_test",
+    "groupId": "io.inugami",
+    "id": 53,
+    "packaging": "jar",
+    "version": "3.2.1-SNAPSHOT"
+  },
+  {
+    "artifactId": "logback-classic",
+    "groupId": "ch.qos.logback",
+    "id": 55,
+    "packaging": "jar",
+    "version": "1.2.10"
+  },
+  {
+    "artifactId": "logback-core",
+    "groupId": "ch.qos.logback",
+    "id": 57,
+    "packaging": "jar",
+    "version": "1.2.10"
+  },
+  {
+    "artifactId": "jackson-databind",
+    "groupId": "com.fasterxml.jackson.core",
+    "id": 59,
+    "packaging": "jar",
+    "version": "2.13.5"
+  },
+  {
+    "artifactId": "jackson-core",
+    "groupId": "com.fasterxml.jackson.core",
+    "id": 61,
+    "packaging": "jar",
+    "version": "2.13.5"
+  },
+  {
+    "artifactId": "inugami_commons",
+    "groupId": "io.inugami",
+    "id": 63,
+    "packaging": "jar",
+    "version": "3.2.1-SNAPSHOT"
+  },
+  {
+    "artifactId": "inugami_api_core",
+    "groupId": "io.inugami",
+    "id": 65,
+    "packaging": "jar",
+    "version": "3.2.1-SNAPSHOT"
+  },
+  {
+    "artifactId": "weld-api",
+    "groupId": "org.jboss.weld",
+    "id": 67,
+    "packaging": "jar",
+    "version": "3.1.SP4"
+  }
+]

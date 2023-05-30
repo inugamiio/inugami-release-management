@@ -1,0 +1,10 @@
+{
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_0",
+  "message" : "data is required to update version",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}

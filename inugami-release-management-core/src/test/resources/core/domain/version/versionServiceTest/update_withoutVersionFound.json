@@ -1,0 +1,11 @@
+{
+  "errorStatus" : 404,
+  "errorCode" : "VERSION-3_8",
+  "message" : "version not found",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.id",
+  "errorDomain" : "version"
+}

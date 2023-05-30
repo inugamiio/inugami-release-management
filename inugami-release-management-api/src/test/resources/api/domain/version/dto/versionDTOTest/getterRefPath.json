@@ -8,7 +8,7 @@
     "version" : "1.7.36"
   } ],
   "getGroupId" : "io.inugami.release.management",
-  "getHash" : ":",
+  "getHash" : "io.inugami.release.management:inugami-release-management-common:1.0.0-SNAPSHOT:jar",
   "getId" : 1,
   "getPackaging" : "jar",
   "getProjectDependencies" : [ {

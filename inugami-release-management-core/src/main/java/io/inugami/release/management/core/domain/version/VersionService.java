@@ -17,11 +17,13 @@
 package io.inugami.release.management.core.domain.version;
 
 import io.inugami.release.management.api.common.dto.PageDTO;
-import io.inugami.release.management.api.domain.version.IVersionService;
 import io.inugami.release.management.api.domain.version.IVersionDao;
+import io.inugami.release.management.api.domain.version.IVersionService;
 import io.inugami.release.management.api.domain.version.dto.VersionDTO;
 import io.inugami.release.management.api.domain.version.exception.VersionError;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,7 @@ import java.util.List;
 
 import static io.inugami.api.exceptions.Asserts.*;
 
+@Setter(AccessLevel.PACKAGE)
 @RequiredArgsConstructor
 @Service
 public class VersionService implements IVersionService {
@@ -51,9 +54,20 @@ public class VersionService implements IVersionService {
         assertNotNull(VersionError.CREATE_DATA_REQUIRED, versionDTO);
         assertModel(() -> assertNotEmpty(VersionError.CREATE_GROUP_ID_REQUIRED, versionDTO.getGroupId()),
                     () -> assertNotEmpty(VersionError.CREATE_ARTIFACT_ID_REQUIRED, versionDTO.getArtifactId()),
-                    () -> assertNotEmpty(VersionError.CREATE_VERSION_REQUIRED, versionDTO.getVersion()));
+                    () -> assertNotEmpty(VersionError.CREATE_VERSION_REQUIRED, versionDTO.getVersion()),
+                    () -> assertNullOrEmpty(VersionError.CREATE_VERSION_DEPENDENCIES_SHOULD_BE_EMPTY, versionDTO.getDependencies()),
+                    () -> assertNullOrEmpty(VersionError.CREATE_VERSION_TEST_DEPENDENCIES_SHOULD_BE_EMPTY, versionDTO.getTestDependencies()),
+                    () -> assertNullOrEmpty(VersionError.CREATE_VERSION_PROJECT_DEPENDENCIES_SHOULD_BE_EMPTY, versionDTO.getProjectDependencies()),
+                    () -> assertNull(VersionError.CREATE_VERSION_ID_SHOULD_BE_NULL, versionDTO.getId())
+        );
 
-        return versionDao.save(versionDTO);
+        VersionDTO versionToSave = versionDTO;
+        if (versionDTO.getPackaging() == null) {
+            versionToSave = versionDTO.toBuilder().packaging(DEFAULT_TYPE).build();
+        }
+        return versionDao.save(versionToSave.toBuilder()
+                                            .buildHash()
+                                            .build());
     }
 
 
@@ -62,24 +76,26 @@ public class VersionService implements IVersionService {
     // =================================================================================================================
     @Override
     public List<VersionDTO> getAllVersions(final PageDTO page) {
-        PageDTO currentPage = page != null ? page : PageDTO.builder()
-                                                           .pageSize(defaultPageSize)
-                                                           .build();
+        final PageDTO currentPage = page != null ? page : PageDTO.builder()
+                                                                 .pageSize(defaultPageSize)
+                                                                 .build();
 
-        final List<VersionDTO> result = versionDao.getAll(page);
+        final List<VersionDTO> result = versionDao.getAll(currentPage);
         assertNotEmpty(VersionError.READ_NOT_FOUND_VERSIONS, result);
         return result;
     }
 
     @Override
     public VersionDTO getVersion(final String groupId, final String artifactId, final String version, final String type) {
-        assertNotNull(VersionError.READ_GROUP_ID_REQUIRED, groupId);
-        assertNotNull(VersionError.READ_ARTIFACT_ID_REQUIRED, artifactId);
-        assertNotNull(VersionError.READ_VERSION_REQUIRED, version);
+        assertModel(
+                () -> assertNotNull(VersionError.READ_GROUP_ID_REQUIRED, groupId),
+                () -> assertNotNull(VersionError.READ_ARTIFACT_ID_REQUIRED, artifactId),
+                () -> assertNotNull(VersionError.READ_VERSION_REQUIRED, version)
+        );
 
         final String     currentType = type == null ? DEFAULT_TYPE : type;
         final VersionDTO result      = versionDao.getVersion(groupId, artifactId, version, currentType);
-        assertNotNull(VersionError.READ_VERSION_NOT_FOUND.addDetail("{0}:{1}:{2}:{4}", groupId, artifactId, version, currentType), result);
+        assertNotNull(VersionError.READ_VERSION_NOT_FOUND.addDetail("{0}:{1}:{2}:{3}", groupId, artifactId, version, currentType), result);
         return result;
     }
 
@@ -91,13 +107,18 @@ public class VersionService implements IVersionService {
         return result;
     }
 
-
     // =================================================================================================================
     // UPDATE
     // =================================================================================================================
     @Override
     public VersionDTO update(final VersionDTO versionDTO) {
-        return null;
+        assertNotNull(VersionError.UPDATE_VERSION_DATA_REQUIRED, versionDTO);
+        assertNotNull(VersionError.UPDATE_VERSION_ID_SHOULD_BE_NULL, versionDTO.getId());
+
+        final VersionDTO result = versionDao.getVersionLight(versionDTO.getId());
+        assertNotNull(VersionError.UPDATE_VERSION_NOT_FOUND, result);
+
+        return versionDao.update(versionDTO);
     }
 
     // =================================================================================================================
@@ -105,11 +126,23 @@ public class VersionService implements IVersionService {
     // =================================================================================================================
     @Override
     public void delete(final String groupId, final String artifactId, final String version, final String type) {
+        assertModel(
+                () -> assertNotNull(VersionError.DELETE_GROUP_ID_REQUIRED, groupId),
+                () -> assertNotNull(VersionError.DELETE_ARTIFACT_ID_REQUIRED, artifactId),
+                () -> assertNotNull(VersionError.DELETE_VERSION_REQUIRED, version)
+        );
 
+        final String     currentType = type == null ? DEFAULT_TYPE : type;
+        final VersionDTO result      = versionDao.getVersionLight(groupId, artifactId, version, currentType);
+        assertNotNull(VersionError.DELETE_VERSION_NOT_FOUND.addDetail("{0}:{1}:{2}:{3}", groupId, artifactId, version, currentType), result);
+        versionDao.delete(result.getId());
     }
 
     @Override
     public void delete(final long id) {
-
+        assertHigherOrEquals(VersionError.DELETE_INVALID_ID, 0, id);
+        final VersionDTO result = versionDao.getVersionLight(id);
+        assertNotNull(VersionError.DELETE_VERSION_NOT_FOUND_WITH_ID.addDetail("{0}", id), result);
+        versionDao.delete(result.getId());
     }
 }

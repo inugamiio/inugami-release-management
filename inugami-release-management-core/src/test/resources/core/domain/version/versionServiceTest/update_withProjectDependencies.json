@@ -1,0 +1,11 @@
+{
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_6",
+  "message" : "version project dependencies shouldn't pass to update version",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.projectDependencies",
+  "errorDomain" : "version"
+}

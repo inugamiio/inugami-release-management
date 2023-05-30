@@ -1,0 +1,11 @@
+{
+  "errorStatus" : 400,
+  "errorCode" : "VERSION-3_5",
+  "message" : "version test dependencies shouldn't pass to update version",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "field" : "dto.testDependencies",
+  "errorDomain" : "version"
+}

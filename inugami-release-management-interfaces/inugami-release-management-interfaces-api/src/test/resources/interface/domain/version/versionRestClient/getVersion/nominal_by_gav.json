@@ -1,0 +1,54 @@
+{
+  "artifactId": "inugami-springboot-demo-user-core",
+  "dependencies": [
+    {
+      "artifactId": "lombok",
+      "groupId": "org.projectlombok",
+      "id": 353,
+      "packaging": "jar",
+      "version": "1.18.26"
+    },
+    {
+      "artifactId": "slf4j-api",
+      "groupId": "org.slf4j",
+      "id": 355,
+      "packaging": "jar",
+      "version": "1.7.36"
+    },
+    {
+      "artifactId": "mapstruct",
+      "groupId": "org.mapstruct",
+      "id": 359,
+      "packaging": "jar",
+      "version": "1.5.3.Final"
+    },
+    {
+      "artifactId": "spring-context",
+      "groupId": "org.springframework",
+      "id": 41,
+      "packaging": "jar",
+      "version": "5.3.26"
+    }
+  ],
+  "groupId": "io.inugami.springboot.demo.user",
+  "id": 39,
+  "packaging": "jar",
+  "projectDependencies": [
+    {
+      "artifactId": "inugami-springboot-demo-user-api",
+      "groupId": "io.inugami.springboot.demo.user",
+      "id": 1,
+      "packaging": "jar",
+      "version": "3.0.0-SNAPSHOT"
+    },
+    {
+      "artifactId": "inugami_api",
+      "groupId": "io.inugami",
+      "id": 155,
+      "packaging": "jar",
+      "version": "3.2.1-SNAPSHOT"
+    }
+  ],
+  "testDependencies": [],
+  "version": "3.0.0-SNAPSHOT"
+}

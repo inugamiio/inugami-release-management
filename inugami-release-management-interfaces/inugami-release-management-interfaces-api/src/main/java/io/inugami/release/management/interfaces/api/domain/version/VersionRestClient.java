@@ -37,7 +37,9 @@ public interface VersionRestClient {
     // READ
     // =================================================================================================================
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    List<VersionLightDTO> getAllVersions(final int page, final int pageSize, final Order order);
+    List<VersionLightDTO> getAllVersions(@RequestParam(required = false, defaultValue = "0") final Integer page,
+                                         @RequestParam(required = false, defaultValue = "50") final Integer pageSize,
+                                         @RequestParam(required = false, defaultValue = "ASC") final Order order);
 
     @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     VersionDTO getVersion(@PathVariable final long id);
@@ -49,9 +51,16 @@ public interface VersionRestClient {
     // =================================================================================================================
     // UPDATE
     // =================================================================================================================
-
+    @PatchMapping(path = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    VersionDTO update(@PathVariable final long id, @RequestBody final VersionDTO versionDTO);
 
     // =================================================================================================================
     // DELETE
     // =================================================================================================================
+    @DeleteMapping(path = "{groupId}/{artifactId}/{version}/{packaging}")
+    void delete(@PathVariable final String groupId, @PathVariable final String artifactId, @PathVariable final String version, @PathVariable final String type);
+
+    @DeleteMapping(path = "{id}")
+    void delete(@PathVariable final long id);
+
 }

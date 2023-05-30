@@ -19,9 +19,6 @@ package io.inugami.release.management.interfaces.core.domain.version.mapper;
 import io.inugami.release.management.interfaces.api.domain.version.dto.VersionDTO;
 import io.inugami.release.management.interfaces.api.domain.version.dto.VersionLightDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-
-import java.util.Set;
 
 @Mapper
 public interface VersionDTOMapper {

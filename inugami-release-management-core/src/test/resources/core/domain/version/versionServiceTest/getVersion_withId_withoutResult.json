@@ -1,0 +1,11 @@
+{
+  "errorStatus" : 404,
+  "errorCode" : "VERSION-2_6",
+  "message" : "version can't be found",
+  "messageDetail" : "2",
+  "errorType" : "functional",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "version"
+}

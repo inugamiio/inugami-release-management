@@ -43,7 +43,7 @@ public class VersionRestController implements VersionRestClient {
     // =================================================================================================================
     @Override
     public VersionDTO create(final VersionDTO versionDTO) {
-        var result = versionService.create(versionDTOMapper.convertToApiDto(versionDTO));
+        final var result = versionService.create(versionDTOMapper.convertToApiDto(versionDTO));
         return versionDTOMapper.convertToRestDto(result);
     }
 
@@ -51,12 +51,12 @@ public class VersionRestController implements VersionRestClient {
     // READ
     // =================================================================================================================
     @Override
-    public List<VersionLightDTO> getAllVersions(final int page, final int pageSize, final Order order) {
-        var result = versionService.getAllVersions(PageDTO.builder()
-                                                          .page(page)
-                                                          .pageSize(pageSize)
-                                                          .order(order == Order.ASC ? PageDTO.Order.ASC : PageDTO.Order.DESC)
-                                                          .build());
+    public List<VersionLightDTO> getAllVersions(final Integer page, final Integer pageSize, final Order order) {
+        final var result = versionService.getAllVersions(PageDTO.builder()
+                                                                .page(page == null ? 0 : page)
+                                                                .pageSize(pageSize == null ? 50 : pageSize)
+                                                                .order(order == Order.ASC ? PageDTO.Order.ASC : PageDTO.Order.DESC)
+                                                                .build());
         return result.stream()
                      .map(versionDTOMapper::convertToVersionLightDTO)
                      .toList();
@@ -70,5 +70,28 @@ public class VersionRestController implements VersionRestClient {
     @Override
     public VersionDTO getVersion(final String groupId, final String artifactId, final String version, final String packaging) {
         return versionDTOMapper.convertToRestDto(versionService.getVersion(groupId, artifactId, version, packaging));
+    }
+
+
+    // =================================================================================================================
+    // UPDATE
+    // =================================================================================================================
+    @Override
+    public VersionDTO update(final long id, final VersionDTO versionDTO) {
+        return versionDTOMapper.convertToRestDto(versionService.update(versionDTOMapper.convertToApiDto(versionDTO)));
+    }
+
+
+    // =================================================================================================================
+    // DELETE
+    // =================================================================================================================
+    @Override
+    public void delete(final String groupId, final String artifactId, final String version, final String type) {
+        versionService.delete(groupId, artifactId, version, type);
+    }
+
+    @Override
+    public void delete(final long id) {
+        versionService.delete(id);
     }
 }

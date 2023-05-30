@@ -21,6 +21,7 @@ import io.inugami.api.exceptions.ErrorCode;
 
 import static io.inugami.api.exceptions.DefaultErrorCode.newBuilder;
 
+@SuppressWarnings({"java:S1192"})
 public enum VersionError implements ErrorCode {
     // =================================================================================================================
     // 0 - GLOBAL
@@ -46,6 +47,7 @@ public enum VersionError implements ErrorCode {
                                      .statusCode(400)
                                      .message("group id is required")
                                      .errorTypeFunctional()
+                                     .field("dto.groupId")
                                      .domain(VersionError.DOMAIN)),
 
     CREATE_ARTIFACT_ID_REQUIRED(newBuilder()
@@ -53,6 +55,7 @@ public enum VersionError implements ErrorCode {
                                         .statusCode(400)
                                         .message("artifact id is required")
                                         .errorTypeFunctional()
+                                        .field("dto.artifactId")
                                         .domain(VersionError.DOMAIN)),
 
     CREATE_VERSION_REQUIRED(newBuilder()
@@ -60,7 +63,39 @@ public enum VersionError implements ErrorCode {
                                     .statusCode(400)
                                     .message("version is required")
                                     .errorTypeFunctional()
+                                    .field("dto.version")
                                     .domain(VersionError.DOMAIN)),
+
+    CREATE_VERSION_DEPENDENCIES_SHOULD_BE_EMPTY(newBuilder()
+                                                        .errorCode("VERSION-1_4")
+                                                        .statusCode(400)
+                                                        .message("version dependencies should be empty")
+                                                        .errorTypeFunctional()
+                                                        .field("dto.dependencies")
+                                                        .domain(VersionError.DOMAIN)),
+    CREATE_VERSION_TEST_DEPENDENCIES_SHOULD_BE_EMPTY(newBuilder()
+                                                             .errorCode("VERSION-1_5")
+                                                             .statusCode(400)
+                                                             .message("version test dependencies should be empty")
+                                                             .errorTypeFunctional()
+                                                             .field("dto.testDependencies")
+                                                             .domain(VersionError.DOMAIN)),
+
+    CREATE_VERSION_PROJECT_DEPENDENCIES_SHOULD_BE_EMPTY(newBuilder()
+                                                                .errorCode("VERSION-1_6")
+                                                                .statusCode(400)
+                                                                .message("version project dependencies should be empty")
+                                                                .errorTypeFunctional()
+                                                                .field("dto.projectDependencies")
+                                                                .domain(VersionError.DOMAIN)),
+
+    CREATE_VERSION_ID_SHOULD_BE_NULL(newBuilder()
+                                             .errorCode("VERSION-1_7")
+                                             .statusCode(400)
+                                             .message("version id should be null")
+                                             .errorTypeFunctional()
+                                             .field("dto.id")
+                                             .domain(VersionError.DOMAIN)),
     // =================================================================================================================
     // 2 - READ
     // =================================================================================================================
@@ -71,53 +106,170 @@ public enum VersionError implements ErrorCode {
                                     .errorTypeFunctional()
                                     .domain(VersionError.DOMAIN)),
     READ_GROUP_ID_REQUIRED(newBuilder()
-                                     .errorCode("VERSION-2_1")
-                                     .statusCode(400)
-                                     .message("group id is required")
-                                     .errorTypeFunctional()
-                                     .domain(VersionError.DOMAIN)),
-
-    READ_ARTIFACT_ID_REQUIRED(newBuilder()
-                                        .errorCode("VERSION-2_2")
-                                        .statusCode(400)
-                                        .message("artifact id is required")
-                                        .errorTypeFunctional()
-                                        .domain(VersionError.DOMAIN)),
-
-    READ_VERSION_REQUIRED(newBuilder()
-                                    .errorCode("VERSION-2_3")
-                                    .statusCode(400)
-                                    .message("version is required")
-                                    .errorTypeFunctional()
-                                    .domain(VersionError.DOMAIN)),
-
-    READ_VERSION_NOT_FOUND(newBuilder()
-                                  .errorCode("VERSION-2_4")
-                                  .statusCode(400)
-                                  .message("version can't be found")
-                                  .errorTypeFunctional()
-                                  .domain(VersionError.DOMAIN)),
-
-    READ_INVALID_ID(newBuilder()
-                                   .errorCode("VERSION-2_5")
+                                   .errorCode("VERSION-2_1")
                                    .statusCode(400)
-                                   .message("invalid id")
+                                   .message("group id is required")
                                    .errorTypeFunctional()
+                                   .field("groupId")
                                    .domain(VersionError.DOMAIN)),
 
-    READ_VERSION_NOT_FOUND_WITH_ID(newBuilder()
-                                   .errorCode("VERSION-2_6")
-                                   .statusCode(400)
+    READ_ARTIFACT_ID_REQUIRED(newBuilder()
+                                      .errorCode("VERSION-2_2")
+                                      .statusCode(400)
+                                      .message("artifact id is required")
+                                      .errorTypeFunctional()
+                                      .field("artifactId")
+                                      .domain(VersionError.DOMAIN)),
+
+    READ_VERSION_REQUIRED(newBuilder()
+                                  .errorCode("VERSION-2_3")
+                                  .statusCode(400)
+                                  .message("version is required")
+                                  .errorTypeFunctional()
+                                  .field("version")
+                                  .domain(VersionError.DOMAIN)),
+
+    READ_VERSION_NOT_FOUND(newBuilder()
+                                   .errorCode("VERSION-2_4")
+                                   .statusCode(404)
                                    .message("version can't be found")
                                    .errorTypeFunctional()
                                    .domain(VersionError.DOMAIN)),
+
+    READ_INVALID_ID(newBuilder()
+                            .errorCode("VERSION-2_5")
+                            .statusCode(400)
+                            .message("invalid id")
+                            .errorTypeFunctional()
+                            .field("id")
+                            .domain(VersionError.DOMAIN)),
+
+    READ_VERSION_NOT_FOUND_WITH_ID(newBuilder()
+                                           .errorCode("VERSION-2_6")
+                                           .statusCode(404)
+                                           .message("version can't be found")
+                                           .errorTypeFunctional()
+                                           .domain(VersionError.DOMAIN)),
     // =================================================================================================================
     // 3 - UPDATE
     // =================================================================================================================
+    UPDATE_VERSION_DATA_REQUIRED(newBuilder()
+                                         .errorCode("VERSION-3_0")
+                                         .statusCode(400)
+                                         .message("data is required to update version")
+                                         .errorTypeFunctional()
+                                         .domain(VersionError.DOMAIN)),
 
+    UPDATE_GROUP_ID_REQUIRED(newBuilder()
+                                     .errorCode("VERSION-3_1")
+                                     .statusCode(400)
+                                     .message("version groupId is required")
+                                     .errorTypeFunctional()
+                                     .field("dto.groupId")
+                                     .domain(VersionError.DOMAIN)),
+    UPDATE_ARTIFACT_ID_REQUIRED(newBuilder()
+                                        .errorCode("VERSION-3_2")
+                                        .statusCode(400)
+                                        .message("version artifactId is required")
+                                        .errorTypeFunctional()
+                                        .field("dto.artifactId")
+                                        .domain(VersionError.DOMAIN)),
+    UPDATE_VERSION_REQUIRED(newBuilder()
+                                    .errorCode("VERSION-3_3")
+                                    .statusCode(400)
+                                    .message("version is required")
+                                    .errorTypeFunctional()
+                                    .field("dto.version")
+                                    .domain(VersionError.DOMAIN)),
+
+    UPDATE_VERSION_DEPENDENCIES_SHOULD_BE_EMPTY(newBuilder()
+                                                        .errorCode("VERSION-3_4")
+                                                        .statusCode(400)
+                                                        .message("version dependencies shouldn't pass to update version")
+                                                        .errorTypeFunctional()
+                                                        .field("dto.dependencies")
+                                                        .domain(VersionError.DOMAIN)),
+
+    UPDATE_VERSION_TEST_DEPENDENCIES_SHOULD_BE_EMPTY(newBuilder()
+                                                             .errorCode("VERSION-3_5")
+                                                             .statusCode(400)
+                                                             .message("version test dependencies shouldn't pass to update version")
+                                                             .errorTypeFunctional()
+                                                             .field("dto.testDependencies")
+                                                             .domain(VersionError.DOMAIN)),
+
+    UPDATE_VERSION_PROJECT_DEPENDENCIES_SHOULD_BE_EMPTY(newBuilder()
+                                                                .errorCode("VERSION-3_6")
+                                                                .statusCode(400)
+                                                                .message("version project dependencies shouldn't pass to update version")
+                                                                .errorTypeFunctional()
+                                                                .field("dto.projectDependencies")
+                                                                .domain(VersionError.DOMAIN)),
+
+    UPDATE_VERSION_ID_SHOULD_BE_NULL(newBuilder()
+                                             .errorCode("VERSION-3_7")
+                                             .statusCode(400)
+                                             .message("version id is requires")
+                                             .errorTypeFunctional()
+                                             .field("dto.projectDependencies")
+                                             .domain(VersionError.DOMAIN)),
+
+    UPDATE_VERSION_NOT_FOUND(newBuilder()
+                                     .errorCode("VERSION-3_8")
+                                     .statusCode(404)
+                                     .message("version not found")
+                                     .errorTypeFunctional()
+                                     .field("dto.id")
+                                     .domain(VersionError.DOMAIN)),
     // =================================================================================================================
     // 4 - DELETE
     // =================================================================================================================
+    DELETE_INVALID_ID(newBuilder()
+                              .errorCode("VERSION-4_0")
+                              .statusCode(400)
+                              .message("invalid id")
+                              .errorTypeFunctional()
+                              .field("id")
+                              .domain(VersionError.DOMAIN)),
+
+    DELETE_VERSION_NOT_FOUND_WITH_ID(newBuilder()
+                                             .errorCode("VERSION-4_1")
+                                             .statusCode(404)
+                                             .message("version can't be found")
+                                             .errorTypeFunctional()
+                                             .domain(VersionError.DOMAIN)),
+
+    DELETE_GROUP_ID_REQUIRED(newBuilder()
+                                     .errorCode("VERSION-4_2")
+                                     .statusCode(400)
+                                     .message("group id is required")
+                                     .errorTypeFunctional()
+                                     .field("groupId")
+                                     .domain(VersionError.DOMAIN)),
+
+    DELETE_ARTIFACT_ID_REQUIRED(newBuilder()
+                                        .errorCode("VERSION-4_3")
+                                        .statusCode(400)
+                                        .message("artifact id is required")
+                                        .errorTypeFunctional()
+                                        .field("artifactId")
+                                        .domain(VersionError.DOMAIN)),
+
+    DELETE_VERSION_REQUIRED(newBuilder()
+                                    .errorCode("VERSION-4_4")
+                                    .statusCode(400)
+                                    .message("version is required")
+                                    .errorTypeFunctional()
+                                    .field("version")
+                                    .domain(VersionError.DOMAIN)),
+
+    DELETE_VERSION_NOT_FOUND(newBuilder()
+                                     .errorCode("VERSION-4_5")
+                                     .statusCode(404)
+                                     .message("version can't be found")
+                                     .errorTypeFunctional()
+                                     .domain(VersionError.DOMAIN)),
+
     ;
 
 

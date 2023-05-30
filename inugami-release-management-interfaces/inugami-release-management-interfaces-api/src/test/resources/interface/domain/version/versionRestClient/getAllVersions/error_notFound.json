@@ -1,0 +1,24 @@
+{
+  "cause": {
+    "localizedMessage": "no data found",
+    "message": "no data found",
+    "parameters": {},
+    "stackTrace": [],
+    "suppressed": [],
+    "title": "no data found",
+    "type": "about:blank"
+  },
+  "detail": "",
+  "localizedMessage": "no data found: ",
+  "message": "no data found: ",
+  "parameters": {
+    "errorCode": "VERSION-2_0",
+    "fields": [],
+    "errorType": "functional"
+  },
+  "stackTrace": [],
+  "status": "NOT_FOUND",
+  "suppressed": [],
+  "title": "no data found",
+  "type": "about:blank"
+}

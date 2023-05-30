@@ -1,0 +1,8 @@
+{
+  "artifactId" : "inugami-release-management-common",
+  "groupId" : "io.inugami.release.management",
+  "hash" : "io.inugami.release.management:inugami-release-management-common:1.0.0-SNAPSHOT:jar",
+  "id" : 1,
+  "packaging" : "jar",
+  "version" : "1.0.0-SNAPSHOT"
+}

@@ -14,10 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.infrastructure.configuration;
+package io.inugami.release.management.api.domain.cve.dto;
 
-import org.springframework.context.annotation.Configuration;
+import lombok.*;
 
-@Configuration
-public class InfrastructureConfiguration {
+import java.util.List;
+
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Setter
+@Getter
+public class CveCnaDTO {
+    private List<CveAffectedDTO> affected;
+
 }

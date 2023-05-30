@@ -26,11 +26,11 @@ import lombok.*;
 @Setter
 @Getter
 public class PageDTO {
-    private int page;
-    private int pageSize;
+    private int   page;
+    private int   pageSize;
     private Order order;
 
-    public static enum Order{
+    public enum Order {
         DESC,
         ASC
     }

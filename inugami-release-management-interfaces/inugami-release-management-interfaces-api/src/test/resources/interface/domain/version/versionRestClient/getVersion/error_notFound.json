@@ -1,0 +1,24 @@
+{
+  "cause": {
+    "localizedMessage": "version can't be found",
+    "message": "version can't be found",
+    "parameters": {},
+    "stackTrace": [],
+    "suppressed": [],
+    "title": "version can't be found",
+    "type": "about:blank"
+  },
+  "detail": "151",
+  "localizedMessage": "version can't be found: 151",
+  "message": "version can't be found: 151",
+  "parameters": {
+    "errorCode": "VERSION-2_6",
+    "fields": [],
+    "errorType": "functional"
+  },
+  "stackTrace": [],
+  "status": "NOT_FOUND",
+  "suppressed": [],
+  "title": "version can't be found",
+  "type": "about:blank"
+}
