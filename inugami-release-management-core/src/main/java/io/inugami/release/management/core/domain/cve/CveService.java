@@ -17,21 +17,19 @@
 package io.inugami.release.management.core.domain.cve;
 
 import io.inugami.api.monitoring.MdcService;
-import io.inugami.commons.threads.ThreadsExecutorService;
-import io.inugami.release.management.api.common.dto.DependencyRuleDTO;
 import io.inugami.release.management.api.domain.cve.ICveDao;
 import io.inugami.release.management.api.domain.cve.ICveService;
 import io.inugami.release.management.api.domain.cve.exception.CveError;
 import io.inugami.release.management.api.domain.cve.importer.CveImporter;
-import io.inugami.release.management.core.domain.cve.importer.ImportTask;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static io.inugami.api.exceptions.Asserts.assertFalse;
 
@@ -43,11 +41,12 @@ public class CveService implements ICveService {
     // =================================================================================================================
     // ATTRIBUTES
     // =================================================================================================================
-    private final ICveDao                cveDao;
-    private final List<CveImporter>      importers;
-    private final ThreadsExecutorService cveServiceExecutorService;
+    private static final Logger            PROCESS_LOG = LoggerFactory.getLogger("PROCESS");
+    public static final  String            SUCCESS     = "SUCCESS";
+    public static final  String            ERROR       = "ERROR";
+    private final        ICveDao           cveDao;
+    private final        List<CveImporter> importers;
 
-    private Map<Class<?>, List<DependencyRuleDTO>> DONE_TASKS = new ConcurrentHashMap<>();
 
     // =================================================================================================================
     // CREATE
@@ -55,77 +54,44 @@ public class CveService implements ICveService {
 
     @Override
     public String importCve() {
+        final MdcService mdc = MdcService.getInstance();
         assertFalse(CveError.IMPORT_ALREADY_RUNNING, cveDao.isImportRunning());
-        DONE_TASKS.clear();
+
         final String processUid = UUID.randomUUID().toString();
+        mdc.processId(processUid)
+           .processName("importCve");
         cveDao.saveNewImportRun(processUid);
 
-        final List<Callable<List<DependencyRuleDTO>>> tasks   = new ArrayList<>();
-        final int                                     nbTasks = importers.size();
+        mdc.lifecycleIn(() -> PROCESS_LOG.info("start importing CVE"));
 
+        final List<Throwable> errors = new ArrayList<>();
         for (final CveImporter importer : importers) {
-            tasks.add(ImportTask.builder()
-                                .cveDao(cveDao)
-                                .importer(importer)
-                                .build());
+
+            try {
+                log.info("starting importer : {}", importer.getName());
+                importer.process();
+                log.info("done importer : {}", importer.getName());
+            } catch (final Throwable e) {
+                log.info("error importer : {} - {}", importer.getName(), e.getMessage());
+                errors.add(e);
+                if (log.isDebugEnabled()) {
+                    log.error(e.getMessage(), e);
+                }
+            }
         }
-        cveServiceExecutorService.run(tasks,
-                                      (values, task) -> this.onDone(values, task, nbTasks, processUid, MdcService.getInstance().getAllMdcExtended()),
-                                      (exception, task) -> this.onError(exception, task, nbTasks, processUid, MdcService.getInstance().getAllMdcExtended()));
+
+
+        if (errors.isEmpty()) {
+            mdc.processStatus(SUCCESS);
+            mdc.lifecycleOut(() -> PROCESS_LOG.info("done importing CVE"));
+        } else {
+            mdc.processStatus(ERROR);
+            mdc.lifecycleOut(() -> PROCESS_LOG.error("done importing CVE"));
+        }
+
 
         return processUid;
     }
 
-
-    // =================================================================================================================
-    // Asynchronous process on importer tasks finish
-    // =================================================================================================================
-    private void onDone(final List<DependencyRuleDTO> values,
-                        final Callable<List<DependencyRuleDTO>> task,
-                        final int nbTasks,
-                        final String processUid,
-                        final Map<String, Serializable> allMdc) {
-        MdcService.getInstance().setMdc(allMdc);
-        DONE_TASKS.put(task.getClass(), values == null ? new ArrayList<>() : null);
-        if (allTasksDone(nbTasks)) {
-            finalizeImportProcess();
-        }
-    }
-
-
-    private void onError(final Exception exception,
-                         final Callable<List<DependencyRuleDTO>> task,
-                         final int nbTasks,
-                         final String processUid,
-                         final Map<String, Serializable> allMdc) {
-        MdcService.getInstance().setMdc(allMdc);
-        log.error(exception.getMessage(), exception);
-        DONE_TASKS.put(task.getClass(), new ArrayList<>());
-        if (allTasksDone(nbTasks)) {
-            finalizeImportProcess();
-        }
-    }
-
-    private synchronized boolean allTasksDone(final int nbTasks) {
-        return DONE_TASKS.size() == nbTasks;
-    }
-
-    private void finalizeImportProcess() {
-        log.info("finalizing import process");
-
-        final List<DependencyRuleDTO> cveFound = aggregateCve(DONE_TASKS);
-        log.info("{} CVE found", cveFound.size());
-    }
-
-    private List<DependencyRuleDTO> aggregateCve(final Map<Class<?>, List<DependencyRuleDTO>> data) {
-        final Set<DependencyRuleDTO> buffer = new LinkedHashSet<>();
-        for (final Map.Entry<Class<?>, List<DependencyRuleDTO>> entry : data.entrySet()) {
-            buffer.addAll(entry.getValue());
-        }
-
-        final List<DependencyRuleDTO> result = new ArrayList<>(buffer);
-        Collections.sort(result);
-        return result;
-    }
 
 }

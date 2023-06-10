@@ -1,0 +1,1 @@
+CveDTO(uuid=CVE-2023-33246, title=Apache RocketMQ: Possible remote code execution vulnerability when using the update configuration function)

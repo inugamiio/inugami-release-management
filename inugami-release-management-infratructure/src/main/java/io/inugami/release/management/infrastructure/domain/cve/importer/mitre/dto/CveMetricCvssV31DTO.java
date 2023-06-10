@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.domain.cve.dto;
+package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto;
 
 import lombok.*;
-
-import java.util.List;
 
 @Builder(toBuilder = true)
 @AllArgsConstructor
@@ -27,28 +25,21 @@ import java.util.List;
 @ToString(onlyExplicitlyIncluded = true)
 @Setter
 @Getter
-public class CveAffectedDTO {
-    private String collectionURL;
-    private String defaultStatus;
-    private String packageName;
-
+public class CveMetricCvssV31DTO {
+    private String attackComplexity;
+    private String attackVector;
+    private String availabilityImpact;
     @EqualsAndHashCode.Include
     @ToString.Include
-    private String              product;
+    private Double baseScore;
     @EqualsAndHashCode.Include
     @ToString.Include
-    private String              vendor;
-    @EqualsAndHashCode.Include
-    @ToString.Include
-    private List<CveVersionDTO> versions;
-
-    private List<CveCreditDTO>      credits;
-    private List<CveDescriptionDTO> descriptions;
-    private List<CveImpactDTO>      impacts;
-    private List<CveMetricDTO>      metrics;
-    private List<CveProblemTypeDTO> problemTypes;
-    private List<CveReferencesDTO>  references;
-    private List<CveSolutionDTO>    solutions;
-    private String                  title;
-
+    private String baseSeverity;
+    private String confidentialityImpact;
+    private String integrityImpact;
+    private String privilegesRequired;
+    private String scope;
+    private String userInteraction;
+    private String vectorString;
+    private String version;
 }

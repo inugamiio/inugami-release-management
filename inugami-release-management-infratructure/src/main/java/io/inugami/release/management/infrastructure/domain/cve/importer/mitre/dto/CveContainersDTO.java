@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.domain.cve.dto;
+package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto;
 
 import lombok.*;
 
@@ -25,11 +25,9 @@ import lombok.*;
 @ToString(onlyExplicitlyIncluded = true)
 @Setter
 @Getter
-public class CveContentDTO {
-    private String           dataType;
-    private String           dataVersion;
-    private CveMetadataDto   cveMetadata;
+public class CveContainersDTO {
+
     @EqualsAndHashCode.Include
     @ToString.Include
-    private CveContainersDTO containers;
+    private CveCnaDTO cna;
 }

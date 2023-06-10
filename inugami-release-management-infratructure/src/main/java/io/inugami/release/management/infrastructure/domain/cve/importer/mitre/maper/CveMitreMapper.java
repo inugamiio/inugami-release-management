@@ -14,24 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.domain.cve.dto;
+package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.maper;
 
-import lombok.*;
+import org.mapstruct.Mapper;
 
-import java.util.List;
-
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
-@Setter
-@Getter
-public class CveVersionDTO {
-    private List<CveChangeDTO> changes;
-    private String             lessThanOrEqual;
-    private String             lessThan;
-    private String             status;
-    private String             version;
-    private String             versionType;
+@Mapper
+public interface CveMitreMapper {
 }

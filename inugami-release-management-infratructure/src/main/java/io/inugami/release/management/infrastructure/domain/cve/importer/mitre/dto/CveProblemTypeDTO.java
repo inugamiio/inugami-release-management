@@ -14,17 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.domain.cve.dto;
+package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto;
 
 import lombok.*;
+
+import java.util.List;
 
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 @Setter
 @Getter
-public class CveCreditDTO {
-    private String value;
+public class CveProblemTypeDTO {
+    private List<CveProblemTypeDescriptionDTO> descriptions;
 }

@@ -14,32 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.domain.cve.dto;
+package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto;
 
 import lombok.*;
 
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode
+@ToString
 @Setter
 @Getter
-public class CveMetricCvssV31DTO {
-    private String attackComplexity;
-    private String attackVector;
-    private String availabilityImpact;
-    @EqualsAndHashCode.Include
-    @ToString.Include
-    private Double baseScore;
-    @EqualsAndHashCode.Include
-    @ToString.Include
-    private String baseSeverity;
-    private String confidentialityImpact;
-    private String integrityImpact;
-    private String privilegesRequired;
-    private String scope;
-    private String userInteraction;
-    private String vectorString;
-    private String version;
+public class CveSolutionDTO {
+    private String value;
 }

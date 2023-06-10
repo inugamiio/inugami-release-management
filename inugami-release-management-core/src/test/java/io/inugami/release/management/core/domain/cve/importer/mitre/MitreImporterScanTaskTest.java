@@ -1,8 +1,7 @@
 package io.inugami.release.management.core.domain.cve.importer.mitre;
 
 import io.inugami.commons.test.UnitTestHelper;
-import io.inugami.release.management.api.common.dto.DependencyRuleDTO;
-import io.inugami.release.management.api.domain.cve.dto.CveContentDTO;
+import io.inugami.release.management.api.domain.cve.dto.CveDTO;
 import io.inugami.release.management.api.domain.cve.importer.ICveMitreDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +23,7 @@ class MitreImporterScanTaskTest {
     @Mock
     private File         file;
 
+
     // =================================================================================================================
     // INIT
     // =================================================================================================================
@@ -31,7 +31,7 @@ class MitreImporterScanTaskTest {
     void init() {
         lenient().when(cveMitreDao.readCveFile(any(File.class)))
                  .thenAnswer(answer -> UnitTestHelper.loadJson(answer.getArgument(0, File.class).getPath(),
-                                                               CveContentDTO.class));
+                                                               CveDTO.class));
     }
 
     // =================================================================================================================
@@ -40,9 +40,35 @@ class MitreImporterScanTaskTest {
     @Test
     void call_CVE_2023_33246() throws Exception {
         when(file.getPath()).thenReturn("core/domain/cve/importer/mitre/mitreImporterScanTask/CVE-2023-33246.json");
-        final DependencyRuleDTO result = buildTask().call();
+        final CveDTO result = buildTask().call();
 
         assertText(result, """
+                {
+                  "comment" : "For RocketMQ versions 5.1.0 and below, under certain conditions, there is a risk of remote command execution.\\n\\nSeveral components of RocketMQ, including NameServer, Broker, and Controller, are leaked on the extranet and lack permission verification, an attacker can exploit this vulnerability by using the update configuration function to execute commands as the system users that RocketMQ is running as. Additionally, an attacker can achieve the same effect by forging the RocketMQ protocol content.\\n\\nTo prevent these attacks, users are recommended to upgrade to version 5.1.1 or above for using RocketMQ 5.x or 4.9.6 or above for using RocketMQ 4.x.\\n",
+                  "cveSeverity" : "MODERATE",
+                  "datePublished" : "2023-05-24T14:45:25",
+                  "id" : 1,
+                  "link" : "https://lists.apache.org/thread/1s8j2c8kogthtpv3060yddk03zq0pxyp",
+                  "name" : "CVE-2023-33246",
+                  "product" : "Apache RocketMQ",
+                  "rules" : {
+                    "major" : {
+                      "ruleType" : "=",
+                      "version" : 5
+                    },
+                    "minor" : {
+                      "ruleType" : "<",
+                      "version" : 1
+                    },
+                    "patch" : {
+                      "ruleType" : "<=",
+                      "version" : 0
+                    }
+                  },
+                  "title" : "Apache RocketMQ: Possible remote code execution vulnerability when using the update configuration function",
+                  "uuid" : "CVE-2023-33246",
+                  "vendor" : "Apache Software Foundation"
+                }
                 """);
     }
 

@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.domain.cve.dto;
+package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto;
 
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Builder(toBuilder = true)
 @AllArgsConstructor
@@ -27,14 +25,11 @@ import java.time.LocalDateTime;
 @ToString(onlyExplicitlyIncluded = true)
 @Setter
 @Getter
-public class CveMetadataDto {
-    private String        state;
+public class CveContentDTO {
+    private String           dataType;
+    private String           dataVersion;
+    private CveMetadataDto   cveMetadata;
     @EqualsAndHashCode.Include
     @ToString.Include
-    private String        cveId;
-    private String        assignerOrgId;
-    private String        assignerShortName;
-    private LocalDateTime dateUpdated;
-    private LocalDateTime dateReserved;
-    private LocalDateTime datePublished;
+    private CveContainersDTO containers;
 }

@@ -16,6 +16,7 @@
  */
 package io.inugami.release.management.api.domain.cve;
 
+
 import io.inugami.release.management.api.domain.cve.dto.CveImportRunDTO;
 
 public interface ICveDao {

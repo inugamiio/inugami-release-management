@@ -16,15 +16,15 @@
  */
 package io.inugami.release.management.api.domain.cve.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
 
-@Builder(toBuilder = true)
 @AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString
-@Setter
-@Getter
-public class CveDescriptionDTO {
-    private String value;
+public enum CveSeverity {
+    CRITICAL("critical", 10),
+    HIGH("high", 9),
+    MODERATE("moderate", 5),
+    LOW("low", 1);
+
+    private final String label;
+    private final int    level;
 }

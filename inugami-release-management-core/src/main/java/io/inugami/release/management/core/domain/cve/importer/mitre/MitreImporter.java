@@ -17,10 +17,12 @@
 package io.inugami.release.management.core.domain.cve.importer.mitre;
 
 import io.inugami.api.exceptions.TechnicalException;
+import io.inugami.api.exceptions.UncheckedException;
 import io.inugami.commons.threads.ThreadsExecutorService;
-import io.inugami.release.management.api.common.dto.DependencyRuleDTO;
+import io.inugami.release.management.api.domain.cve.dto.CveDTO;
 import io.inugami.release.management.api.domain.cve.importer.CveImporter;
 import io.inugami.release.management.api.domain.cve.importer.ICveMitreDao;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -30,13 +32,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static io.inugami.release.management.api.domain.cve.exception.CveError.ERROR_IN_IMPORTING_STEP;
 
 // https://cwe.mitre.org/data/downloads.html
 @Slf4j
 @Component
+@Builder
 @RequiredArgsConstructor
 public class MitreImporter implements CveImporter {
-    final         long                   timeout;
     private final ICveMitreDao           cveMitreDao;
     private final ThreadsExecutorService mitreImporterExecutorService;
 
@@ -44,22 +49,21 @@ public class MitreImporter implements CveImporter {
     // PROCESS
     // =================================================================================================================
     @Override
-    public List<DependencyRuleDTO> process() {
+    public void process() {
         if (!cveMitreDao.isCveZipFileExists()) {
             cveMitreDao.downloadCve();
         }
-        return scanCve();
+        importCve();
     }
 
 
     // =================================================================================================================
     // PRIVATE
     // =================================================================================================================
-    protected List<DependencyRuleDTO> scanCve() {
-        List<DependencyRuleDTO> result = null;
+    protected void importCve() {
 
-        final List<File>                        files = cveMitreDao.getAllFiles();
-        final List<Callable<DependencyRuleDTO>> tasks = new ArrayList<>();
+        final List<File>             files = cveMitreDao.getAllFiles();
+        final List<Callable<CveDTO>> tasks = new ArrayList<>();
 
         for (final File file : files) {
             tasks.add(MitreImporterScanTask.builder()
@@ -68,26 +72,42 @@ public class MitreImporter implements CveImporter {
                                            .build());
         }
 
-        final int           nbTasks = tasks.size();
-        final AtomicInteger cursor  = new AtomicInteger();
+        final int                     nbTasks = tasks.size();
+        final AtomicInteger           cursor  = new AtomicInteger();
+        final AtomicReference<String> error   = new AtomicReference<>();
 
         try {
-            result = mitreImporterExecutorService.runAndGrab(tasks,
-                                                             (value, task) -> this.onStepDone(value, task, nbTasks, cursor),
-                                                             (exception, task) -> this.onError(exception, task, nbTasks, cursor));
+            mitreImporterExecutorService.runAndGrab(tasks,
+                                                    (value, task) -> this.onStepDone(value, task, nbTasks, cursor),
+                                                    (exception, task) -> this.onError(exception, task, nbTasks, cursor, error));
         } catch (final TechnicalException e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
 
-        return result;
+        if (error.get() != null) {
+            throw new UncheckedException(ERROR_IN_IMPORTING_STEP.addDetail(error.get()));
+        }
     }
 
-    private <T> void onStepDone(final T t, final Callable<T> tCallable, final int nbTasks, final AtomicInteger cursor) {
+    // =================================================================================================================
+    // ON DONE
+    // =================================================================================================================
+    private void onStepDone(final CveDTO cve, final Callable<CveDTO> tCallable, final int nbTasks, final AtomicInteger cursor) {
         logProgression(nbTasks, cursor);
     }
 
-    private <T> void onError(final Exception e, final Callable<T> tCallable, final int nbTasks, final AtomicInteger cursor) {
+
+    // =================================================================================================================
+    // ON ERROR
+    // =================================================================================================================
+    private void onError(final Exception e,
+                         final Callable<CveDTO> tCallable,
+                         final int nbTasks,
+                         final AtomicInteger cursor,
+                         final AtomicReference<String> error) {
+        log.error(e.getMessage(), e);
+        error.set(e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage());
         logProgression(nbTasks, cursor);
     }
 

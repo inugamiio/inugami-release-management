@@ -14,12 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.domain.cve.importer;
+package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto;
 
-public interface CveImporter {
-    default String getName() {
-        return this.getClass().getSimpleName();
-    }
+import lombok.*;
 
-    void process();
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
+@Setter
+@Getter
+public class CveProblemTypeDescriptionDTO {
+    @ToString.Include
+    @EqualsAndHashCode.Include
+    private String cweId;
+    private String description;
 }

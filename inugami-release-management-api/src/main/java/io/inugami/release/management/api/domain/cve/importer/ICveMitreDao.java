@@ -16,12 +16,16 @@
  */
 package io.inugami.release.management.api.domain.cve.importer;
 
-import io.inugami.release.management.api.domain.cve.dto.CveContentDTO;
+import io.inugami.release.management.api.domain.cve.dto.CveDTO;
 
 import java.io.File;
 import java.util.List;
 
 public interface ICveMitreDao {
+    // =================================================================================================================
+    // CREATE
+    // =================================================================================================================
+    CveDTO save(CveDTO cve);
 
     // =================================================================================================================
     // READ
@@ -32,5 +36,7 @@ public interface ICveMitreDao {
 
     List<File> getAllFiles();
 
-    CveContentDTO readCveFile(final File file);
+    CveDTO readCveFile(final File file);
+
+
 }
