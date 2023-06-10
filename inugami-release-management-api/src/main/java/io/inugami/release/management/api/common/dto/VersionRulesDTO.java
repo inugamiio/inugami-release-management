@@ -26,6 +26,7 @@ import lombok.*;
 @Setter
 @Getter
 public class VersionRulesDTO {
+    private Long    id;
     private RuleDTO major;
     private RuleDTO minor;
     private RuleDTO patch;

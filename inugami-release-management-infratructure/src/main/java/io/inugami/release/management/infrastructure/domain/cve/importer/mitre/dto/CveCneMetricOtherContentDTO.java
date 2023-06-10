@@ -14,10 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.maper;
+package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto;
 
-import org.mapstruct.Mapper;
+import lombok.*;
 
-@Mapper
-public interface CveMitreMapper {
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Setter
+@Getter
+public class CveCneMetricOtherContentDTO {
+    private String text;
 }

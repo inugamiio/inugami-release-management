@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.infrastructure.domain.cve;
+package io.inugami.release.management.api.common;
 
-import io.inugami.release.management.infrastructure.domain.cve.importer.mitre.mapper.CveDTOMitreMapper;
-import org.mapstruct.factory.Mappers;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 
-@Configuration
-public class CveMapperConfiguration {
-    @Bean
-    public CveDTOMitreMapper cveDTOMitreMapper() {
-        return Mappers.getMapper(CveDTOMitreMapper.class);
-    }
+public interface IFileService {
+    byte[] readFile(final File file) throws IOException;
+
+    String readTextFile(final File file) throws IOException;
+
+    String readTextFile(final File file, final Charset charset) throws IOException;
 }
+

@@ -9,6 +9,7 @@ inugami:
             maxThreads: 20
             timeout: 30000
             mitre:
+              folder.temp: "${user.home}/.inugami/inugami_cve_importer_mitre"
               maxThreads: 20
               timeout: 30000
 

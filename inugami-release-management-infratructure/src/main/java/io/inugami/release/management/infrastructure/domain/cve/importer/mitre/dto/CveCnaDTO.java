@@ -28,6 +28,9 @@ import java.util.List;
 @Setter
 @Getter
 public class CveCnaDTO {
-    private List<CveAffectedDTO> affected;
-
+    private List<CveAffectedDTO>    affected;
+    private List<CveCneMetricDTO>   metrics;
+    private List<CveDescriptionDTO> descriptions;
+    private List<CveReferencesDTO>  references;
+    private String                  title;
 }

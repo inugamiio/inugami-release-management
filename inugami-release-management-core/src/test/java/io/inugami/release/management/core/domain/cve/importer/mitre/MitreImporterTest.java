@@ -11,8 +11,6 @@ import io.inugami.commons.threads.ThreadsExecutorService;
 import io.inugami.release.management.api.domain.cve.dto.CveDTO;
 import io.inugami.release.management.api.domain.cve.importer.ICveMitreDao;
 import io.inugami.release.management.core.domain.cve.CveConfiguration;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,13 +23,14 @@ import java.util.List;
 
 import static io.inugami.commons.test.UnitTestHelper.assertThrows;
 import static io.inugami.release.management.api.domain.cve.exception.CveError.ERROR_IN_IMPORTING_STEP;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MitreImporterTest {
-    private static ThreadsExecutorService mitreImporterExecutorService;
+
 
     @Mock
     private ICveMitreDao cveMitreDao;
@@ -41,18 +40,7 @@ class MitreImporterTest {
     // =================================================================================================================
     // INIT
     // =================================================================================================================
-    @BeforeAll
-    public static void start() {
-        mitreImporterExecutorService = new CveConfiguration().mitreImporterExecutorService(
-                20,
-                1000L
-        );
-    }
 
-    @AfterAll
-    public static void stop() {
-        mitreImporterExecutorService.shutdown();
-    }
 
     @BeforeEach
     void init() {
@@ -62,11 +50,13 @@ class MitreImporterTest {
                                                                CveDTO.class));
     }
 
+
     // =================================================================================================================
     // process
     // =================================================================================================================
     @Test
     void process_nominal() {
+
         final List<BasicLogEvent> logs     = new ArrayList<>();
         final LogListener         listener = new DefaultLogListener(MitreImporter.class, logs::add);
         LogTestAppender.register(listener);
@@ -77,14 +67,18 @@ class MitreImporterTest {
         final CveDTO cve  = UnitTestHelper.loadJson(file, CveDTO.class);
         when(cveMitreDao.readCveFile(any(File.class))).thenReturn(cve);
 
-        buildImporter().process();
+        final ThreadsExecutorService executor = buildExecutor();
+        buildImporter(executor).process();
+
 
         LogTestAppender.removeListener(listener);
-        //assertTextRelative(logs, "core/domain/cve/importer/mitre/mitreImporterTest/process_nominal.log.json");
+        assertThat(logs).isNotEmpty();
     }
+
 
     @Test
     void process_withError() {
+        MdcService.getInstance().clear();
         final List<BasicLogEvent> logs     = new ArrayList<>();
         final LogListener         listener = new DefaultLogListener(MitreImporter.class, logs::add);
         LogTestAppender.register(listener);
@@ -95,24 +89,34 @@ class MitreImporterTest {
         final CveDTO cve  = UnitTestHelper.loadJson(file, CveDTO.class);
 
         when(cveMitreDao.readCveFile(any(File.class))).thenThrow(new UncheckedException("some error"));
+        final ThreadsExecutorService executor = buildExecutor();
+
 
         assertThrows(ERROR_IN_IMPORTING_STEP,
-                     () -> buildImporter().process(),
+                     () -> buildImporter(executor).process(),
                      "core/domain/cve/importer/mitre/mitreImporterTest/process_withError.json");
+        executor.shutdown();
 
         LogTestAppender.removeListener(listener);
-        // assertTextRelative(logs, "core/domain/cve/importer/mitre/mitreImporterTest/process_withError.log.json");
-
+        assertThat(logs).isNotEmpty();
+        MdcService.getInstance().clear();
     }
 
 
     // =================================================================================================================
     // TOOLS
     // =================================================================================================================
-    MitreImporter buildImporter() {
+    MitreImporter buildImporter(final ThreadsExecutorService executor) {
         return MitreImporter.builder()
                             .cveMitreDao(cveMitreDao)
-                            .mitreImporterExecutorService(mitreImporterExecutorService)
+                            .mitreImporterExecutorService(executor)
                             .build();
+    }
+
+    private ThreadsExecutorService buildExecutor() {
+        return new CveConfiguration().mitreImporterExecutorService(
+                20,
+                1000L
+        );
     }
 }

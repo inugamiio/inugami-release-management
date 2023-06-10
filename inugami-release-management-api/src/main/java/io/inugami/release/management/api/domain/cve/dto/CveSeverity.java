@@ -17,7 +17,9 @@
 package io.inugami.release.management.api.domain.cve.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public enum CveSeverity {
     CRITICAL("critical", 10),
@@ -25,6 +27,22 @@ public enum CveSeverity {
     MODERATE("moderate", 5),
     LOW("low", 1);
 
-    private final String label;
-    private final int    level;
+    private static final CveSeverity[] VALUES = values();
+    private final        String        label;
+    private final        int           level;
+
+    public static CveSeverity of(final String value) {
+        CveSeverity result = null;
+        if (value == null) {
+            return null;
+        }
+
+        for (final CveSeverity item : VALUES) {
+            if (value.equalsIgnoreCase(item.label)) {
+                result = item;
+                break;
+            }
+        }
+        return result;
+    }
 }

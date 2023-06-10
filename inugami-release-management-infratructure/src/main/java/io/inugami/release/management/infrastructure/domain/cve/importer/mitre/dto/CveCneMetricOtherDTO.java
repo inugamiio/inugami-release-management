@@ -14,17 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.infrastructure.domain.cve;
+package io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto;
 
-import io.inugami.release.management.infrastructure.domain.cve.importer.mitre.mapper.CveDTOMitreMapper;
-import org.mapstruct.factory.Mappers;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import lombok.*;
 
-@Configuration
-public class CveMapperConfiguration {
-    @Bean
-    public CveDTOMitreMapper cveDTOMitreMapper() {
-        return Mappers.getMapper(CveDTOMitreMapper.class);
-    }
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
+@Setter
+@Getter
+public class CveCneMetricOtherDTO {
+    private String                      type;
+    private CveCneMetricOtherContentDTO content;
 }

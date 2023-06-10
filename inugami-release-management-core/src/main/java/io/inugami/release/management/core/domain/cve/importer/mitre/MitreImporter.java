@@ -61,10 +61,11 @@ public class MitreImporter implements CveImporter {
     // PRIVATE
     // =================================================================================================================
     protected void importCve() {
+        log.info("retrieve mitre files...");
+        final List<File> files = cveMitreDao.getAllFiles();
+        log.info("{} mitre files found", files.size());
 
-        final List<File>             files = cveMitreDao.getAllFiles();
         final List<Callable<CveDTO>> tasks = new ArrayList<>();
-
         for (final File file : files) {
             tasks.add(MitreImporterScanTask.builder()
                                            .file(file)

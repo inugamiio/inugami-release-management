@@ -1,0 +1,23 @@
+{
+  "affectVersions" : [ {
+    "artifactId" : "some-artifact",
+    "groupId" : "io.inugami",
+    "version" : "1.0.0"
+  } ],
+  "product" : "Apache RocketMQ",
+  "rules" : [ {
+    "major" : {
+      "ruleType" : "=",
+      "version" : 5
+    },
+    "minor" : {
+      "ruleType" : "<",
+      "version" : 1
+    },
+    "patch" : {
+      "ruleType" : "<=",
+      "version" : 0
+    }
+  } ],
+  "vendor" : "Apache Software Foundation"
+}

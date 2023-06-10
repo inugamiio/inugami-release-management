@@ -4,9 +4,11 @@ import io.inugami.commons.test.dto.AssertDtoContext;
 import io.inugami.release.management.api.common.dto.RuleDTO;
 import io.inugami.release.management.api.common.dto.RuleType;
 import io.inugami.release.management.api.common.dto.VersionRulesDTO;
+import io.inugami.release.management.api.domain.version.dto.VersionDTO;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static io.inugami.commons.test.UnitTestHelper.assertDto;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,8 +48,6 @@ class CveDTOTest {
                      .id(1L)
                      .uuid("CVE-2023-33246")
                      .name("CVE-2023-33246")
-                     .product("Apache RocketMQ")
-                     .vendor("Apache Software Foundation")
                      .datePublished(LocalDateTime.of(2023, 5, 24, 14, 45, 25))
                      .cveSeverity(CveSeverity.MODERATE)
                      .title("Apache RocketMQ: Possible remote code execution vulnerability when using the update configuration function")
@@ -59,20 +59,35 @@ class CveDTOTest {
                                                                
                                       To prevent these attacks, users are recommended to upgrade to version 5.1.1 or above for using RocketMQ 5.x or 4.9.6 or above for using RocketMQ 4.x.
                                       """)
-                     .rules(VersionRulesDTO.builder()
-                                           .major(RuleDTO.builder()
-                                                         .version(5)
-                                                         .ruleType(RuleType.EQUALS)
-                                                         .build())
-                                           .minor(RuleDTO.builder()
-                                                         .version(1)
-                                                         .ruleType(RuleType.LESS)
-                                                         .build())
-                                           .patch(RuleDTO.builder()
-                                                         .version(0)
-                                                         .ruleType(RuleType.LESS_EQUALS)
-                                                         .build())
-                                           .build())
+                     .productsAffected(List.of(
+                             ProductAffectedDTO.builder()
+                                               .product("Apache RocketMQ")
+                                               .vendor("Apache Software Foundation")
+                                               .rules(List.of(
+                                                       VersionRulesDTO.builder()
+                                                                      .major(RuleDTO.builder()
+                                                                                    .version(5)
+                                                                                    .ruleType(RuleType.EQUALS)
+                                                                                    .build())
+                                                                      .minor(RuleDTO.builder()
+                                                                                    .version(1)
+                                                                                    .ruleType(RuleType.LESS)
+                                                                                    .build())
+                                                                      .patch(RuleDTO.builder()
+                                                                                    .version(0)
+                                                                                    .ruleType(RuleType.LESS_EQUALS)
+                                                                                    .build())
+                                                                      .build()
+                                               ))
+                                               .affectVersions(List.of(
+                                                       VersionDTO.builder()
+                                                                 .groupId("io.inugami")
+                                                                 .artifactId("some-artifact")
+                                                                 .version("1.0.0")
+                                                                 .build()
+                                               ))
+                                               .build()
+                     ))
                      .build();
     }
 }
