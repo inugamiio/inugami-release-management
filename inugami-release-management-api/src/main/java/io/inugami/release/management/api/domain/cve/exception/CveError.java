@@ -49,6 +49,13 @@ public enum CveError implements ErrorCode {
                                      .message("error on reading mitre file")
                                      .errorTypeTechnical()
                                      .domain(CveError.DOMAIN)),
+
+    ERROR_UNZIP_MITRE_FILE(newBuilder()
+                                   .errorCode("CVE-1_2")
+                                   .statusCode(500)
+                                   .message("error on unzip mitre file")
+                                   .errorTypeTechnical()
+                                   .domain(CveError.DOMAIN)),
     // =================================================================================================================
     // 2 - READ
     // =================================================================================================================

@@ -18,17 +18,19 @@ package io.inugami.release.management.infrastructure.domain.cve.importer.mitre;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.inugami.api.exceptions.UncheckedException;
-import io.inugami.commons.connectors.IHttpBasicConnector;
 import io.inugami.commons.files.FilesUtils;
 import io.inugami.release.management.api.common.IFileService;
 import io.inugami.release.management.api.domain.cve.dto.CveDTO;
 import io.inugami.release.management.api.domain.cve.exception.CveError;
 import io.inugami.release.management.api.domain.cve.importer.ICveMitreDao;
+import io.inugami.release.management.common.services.IDownloadService;
+import io.inugami.release.management.common.services.IZipService;
 import io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto.CveContentDTO;
 import io.inugami.release.management.infrastructure.domain.cve.importer.mitre.mapper.CveDTOMitreMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -36,25 +38,38 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static io.inugami.release.management.api.domain.cve.exception.CveError.ERROR_UNZIP_MITRE_FILE;
+
+@Slf4j
 @Setter(AccessLevel.PACKAGE)
 @Service
 @RequiredArgsConstructor
 public class CveMitreDao implements ICveMitreDao {
 
+    public static final String            MITRE_CVE_ZIP          = "mitre-cve.zip";
+    public static final String            DATA                   = "data";
+    public static final String            RECENT_ACTIVITIES_JSON = "recent_activities.json";
+    public static final String            JSON                   = ".json";
     // =================================================================================================================
     // ATTRIBUTES
     // =================================================================================================================
-    private final IHttpBasicConnector mitreImporterHttpConnector;
-    private final IFileService        fileService;
-    private final CveDTOMitreMapper   cveDTOMitreMapper;
-    private final ObjectMapper        objectMapper;
+    private final       IDownloadService  downloadService;
+    private final       IZipService       zipService;
+    private final       IFileService      fileService;
+    private final       CveDTOMitreMapper cveDTOMitreMapper;
+    private final       ObjectMapper      objectMapper;
 
     @Value("${inugami.release.management.domain.cve.importer.mitre.folder.temp:#{null}}")
     private String folderTempPath;
-    private File   folderTemp;
+
+    @Value("${inugami.release.management.domain.cve.importer.mitre.url:https://github.com/CVEProject/cvelistV5/archive/refs/heads/main.zip}")
+    private String cveMitreUrl;
+
+    private File folderTemp;
 
     // =================================================================================================================
     // init
@@ -88,8 +103,35 @@ public class CveMitreDao implements ICveMitreDao {
 
     @Override
     public File downloadCve() {
-        return null;
+
+        final File file   = new File(folderTemp.getAbsolutePath() + File.separator + MITRE_CVE_ZIP);
+        final File target = new File(folderTemp.getAbsolutePath() + File.separator + DATA);
+        if (file.exists()) {
+            log.warn("file {} already exists, doanload skip", file.getAbsolutePath());
+        } else {
+            downloadService.download(cveMitreUrl, file);
+        }
+
+        if (!mitreCveHaveBeenUnzipped()) {
+            try {
+                zipService.unzipFile(file, target);
+            } catch (final IOException e) {
+                throw new UncheckedException(ERROR_UNZIP_MITRE_FILE.addDetail(e.getMessage()), e);
+            }
+        }
+
+
+        return target;
     }
+
+
+    private boolean mitreCveHaveBeenUnzipped() {
+        return !Arrays.asList(folderTemp.listFiles())
+                      .stream()
+                      .filter(file -> file.isDirectory()).toList()
+                      .isEmpty();
+    }
+
 
     @Override
     public List<File> getAllFiles() {
@@ -110,7 +152,7 @@ public class CveMitreDao implements ICveMitreDao {
             if (file.isDirectory()) {
                 result.addAll(getAllFiles(file));
             } else {
-                if (file.getName().toLowerCase().endsWith(".json")) {
+                if (file.getName().toLowerCase().endsWith(JSON) && !file.getName().equalsIgnoreCase(RECENT_ACTIVITIES_JSON)) {
                     try {
                         result.add(file.getCanonicalFile());
                     } catch (final IOException e) {

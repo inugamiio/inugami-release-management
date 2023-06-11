@@ -3,6 +3,8 @@ package io.inugami.release.management.infrastructure.domain.cve.importer.mitre;
 import io.inugami.commons.connectors.IHttpBasicConnector;
 import io.inugami.commons.marshaling.JsonMarshaller;
 import io.inugami.commons.test.UnitTestHelper;
+import io.inugami.release.management.common.services.DownloadService;
+import io.inugami.release.management.common.services.ZipService;
 import io.inugami.release.management.infrastructure.common.FileService;
 import io.inugami.release.management.infrastructure.domain.cve.CveMapperConfiguration;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +66,8 @@ class CveMitreDaoTest {
     // =================================================================================================================
     CveMitreDao buildDao() {
         final CveMitreDao dao = new CveMitreDao(
-                mitreImporterHttpConnector,
+                new DownloadService(),
+                new ZipService(),
                 new FileService(),
                 new CveMapperConfiguration().cveDTOMitreMapper(),
                 JsonMarshaller.getInstance().getDefaultObjectMapper()
