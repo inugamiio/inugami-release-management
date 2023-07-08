@@ -18,6 +18,9 @@ package io.inugami.release.management.api.domain.cve;
 
 
 import io.inugami.release.management.api.domain.cve.dto.CveImportRunDTO;
+import io.inugami.release.management.api.domain.cve.dto.CveImportRunStatus;
+
+import java.util.List;
 
 public interface ICveDao {
 
@@ -25,18 +28,21 @@ public interface ICveDao {
     // =================================================================================================================
     // CREATE
     // =================================================================================================================
-
+    CveImportRunDTO saveNewImportRun(String processUid);
 
     // =================================================================================================================
     // READ
     // =================================================================================================================
     boolean isImportRunning();
 
-    CveImportRunDTO saveNewImportRun(String processUid);
+    CveImportRunDTO getImportRun(String processUid);
 
     // =================================================================================================================
     // UPDATE
     // =================================================================================================================
+    void changeRunState(String processUid, CveImportRunStatus status);
+
+    void changeRunState(String processUid, List<Throwable> errors);
 
 
     // =================================================================================================================

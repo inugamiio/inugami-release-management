@@ -14,19 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.common.dto;
+package io.inugami.release.management.interfaces.api.domain.cve;
 
-import lombok.*;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString(onlyExplicitlyIncluded = true)
-@Setter
-@Getter
-public class RuleDTO {
-    private Long     id;
-    private int      version;
-    private RuleType ruleType;
+@RequestMapping(path = "v1/cve")
+public interface CveRestClient {
+
+    @PostMapping(path = "import", produces = MediaType.APPLICATION_JSON_VALUE)
+    String importCve();
 }

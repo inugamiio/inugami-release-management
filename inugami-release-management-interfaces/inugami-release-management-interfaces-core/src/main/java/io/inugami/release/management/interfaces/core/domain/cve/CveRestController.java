@@ -14,19 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.common.dto;
+package io.inugami.release.management.interfaces.core.domain.cve;
 
-import lombok.*;
+import io.inugami.release.management.api.domain.cve.ICveService;
+import io.inugami.release.management.interfaces.api.domain.cve.CveRestClient;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
 
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString(onlyExplicitlyIncluded = true)
-@Setter
-@Getter
-public class RuleDTO {
-    private Long     id;
-    private int      version;
-    private RuleType ruleType;
+@RequiredArgsConstructor
+@RestController
+public class CveRestController implements CveRestClient {
+
+    private final ICveService cveService;
+
+    @Override
+    public String importCve() {
+        return cveService.importCve();
+    }
 }

@@ -14,19 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.common.dto;
+package io.inugami.release.management.infrastructure.datasource.neo4j.repository;
 
-import lombok.*;
+import io.inugami.release.management.infrastructure.datasource.neo4j.entity.CveImportRunEntity;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.neo4j.repository.query.Query;
 
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString(onlyExplicitlyIncluded = true)
-@Setter
-@Getter
-public class RuleDTO {
-    private Long     id;
-    private int      version;
-    private RuleType ruleType;
+import java.util.Optional;
+
+public interface CveImportRunEntityRepository extends Neo4jRepository<CveImportRunEntity, Long> {
+
+    @Query("""
+            MATCH (n:CveImportRun) where n.status="IN_PROGRESS"
+            RETURN n
+            """)
+    Optional<CveImportRunEntity> findRunning();
+
+    Optional<CveImportRunEntity> findByUid(String processUid);
 }

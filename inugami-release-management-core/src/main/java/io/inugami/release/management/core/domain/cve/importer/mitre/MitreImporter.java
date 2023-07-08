@@ -50,9 +50,7 @@ public class MitreImporter implements CveImporter {
     // =================================================================================================================
     @Override
     public void process() {
-        if (!cveMitreDao.isCveZipFileExists()) {
-            cveMitreDao.downloadCve();
-        }
+        cveMitreDao.downloadCve();
         importCve();
     }
 

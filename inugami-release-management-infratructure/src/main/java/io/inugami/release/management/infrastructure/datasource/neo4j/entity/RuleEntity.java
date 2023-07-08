@@ -14,18 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.common.dto;
+package io.inugami.release.management.infrastructure.datasource.neo4j.entity;
 
+import io.inugami.release.management.api.common.dto.RuleType;
 import lombok.*;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
 
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Setter
 @Getter
-public class RuleDTO {
+@Builder(toBuilder = true)
+@ToString(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Node("Rule")
+public class RuleEntity {
+    @Id
+    @GeneratedValue
     private Long     id;
     private int      version;
     private RuleType ruleType;

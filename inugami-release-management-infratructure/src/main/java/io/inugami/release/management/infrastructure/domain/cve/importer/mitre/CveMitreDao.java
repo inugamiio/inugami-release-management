@@ -21,7 +21,6 @@ import io.inugami.api.exceptions.UncheckedException;
 import io.inugami.commons.files.FilesUtils;
 import io.inugami.release.management.api.common.IFileService;
 import io.inugami.release.management.api.domain.cve.dto.CveDTO;
-import io.inugami.release.management.api.domain.cve.exception.CveError;
 import io.inugami.release.management.api.domain.cve.importer.ICveMitreDao;
 import io.inugami.release.management.common.services.IDownloadService;
 import io.inugami.release.management.common.services.IZipService;
@@ -103,13 +102,15 @@ public class CveMitreDao implements ICveMitreDao {
 
     @Override
     public File downloadCve() {
-
         final File file   = new File(folderTemp.getAbsolutePath() + File.separator + MITRE_CVE_ZIP);
         final File target = new File(folderTemp.getAbsolutePath() + File.separator + DATA);
-        if (file.exists()) {
-            log.warn("file {} already exists, doanload skip", file.getAbsolutePath());
-        } else {
-            downloadService.download(cveMitreUrl, file);
+
+        if (!isCveZipFileExists()) {
+            if (file.exists()) {
+                log.warn("file {} already exists, doanload skip", file.getAbsolutePath());
+            } else {
+                downloadService.download(cveMitreUrl, file);
+            }
         }
 
         if (!mitreCveHaveBeenUnzipped()) {
@@ -170,10 +171,10 @@ public class CveMitreDao implements ICveMitreDao {
             final String content = fileService.readTextFile(file);
             data = objectMapper.readValue(content, CveContentDTO.class);
         } catch (final Throwable e) {
-            throw new UncheckedException(CveError.ERROR_READING_MITRE_FILE.addDetail(e.getMessage()), e);
+            log.error("enable to read mitre file : {} : {}", file.getAbsolutePath(), e.getMessage());
         }
 
-        return cveDTOMitreMapper.convertToCveDto(data);
+        return data == null ? null : cveDTOMitreMapper.convertToCveDto(data);
     }
 
 }

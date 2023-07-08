@@ -14,19 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.common.dto;
+package io.inugami.release.management.infrastructure.datasource.neo4j.mapper;
 
-import lombok.*;
+import io.inugami.release.management.api.domain.cve.dto.ProductAffectedDTO;
+import io.inugami.release.management.infrastructure.datasource.neo4j.entity.ProductAffectedEntity;
+import org.mapstruct.Mapper;
 
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString(onlyExplicitlyIncluded = true)
-@Setter
-@Getter
-public class RuleDTO {
-    private Long     id;
-    private int      version;
-    private RuleType ruleType;
+@Mapper(uses = {VersionEntityMapper.class, VersionRulesEntityMapper.class})
+public interface ProductAffectedEntityMapper {
+    ProductAffectedEntity convertToEntity(ProductAffectedDTO dto);
+
+    ProductAffectedDTO convertToDto(ProductAffectedEntity entity);
 }

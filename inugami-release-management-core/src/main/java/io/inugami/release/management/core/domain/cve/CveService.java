@@ -17,8 +17,10 @@
 package io.inugami.release.management.core.domain.cve;
 
 import io.inugami.api.monitoring.MdcService;
+import io.inugami.commons.threads.ThreadsExecutorService;
 import io.inugami.release.management.api.domain.cve.ICveDao;
 import io.inugami.release.management.api.domain.cve.ICveService;
+import io.inugami.release.management.api.domain.cve.dto.CveImportRunStatus;
 import io.inugami.release.management.api.domain.cve.exception.CveError;
 import io.inugami.release.management.api.domain.cve.importer.CveImporter;
 import lombok.RequiredArgsConstructor;
@@ -41,12 +43,12 @@ public class CveService implements ICveService {
     // =================================================================================================================
     // ATTRIBUTES
     // =================================================================================================================
-    private static final Logger            PROCESS_LOG = LoggerFactory.getLogger("PROCESS");
-    public static final  String            SUCCESS     = "SUCCESS";
-    public static final  String            ERROR       = "ERROR";
-    private final        ICveDao           cveDao;
-    private final        List<CveImporter> importers;
-
+    private static final Logger                 PROCESS_LOG = LoggerFactory.getLogger("PROCESS");
+    public static final  String                 SUCCESS     = "SUCCESS";
+    public static final  String                 ERROR       = "ERROR";
+    private final        ICveDao                cveDao;
+    private final        List<CveImporter>      importers;
+    private final        ThreadsExecutorService cveServiceExecutorService;
 
     // =================================================================================================================
     // CREATE
@@ -58,10 +60,16 @@ public class CveService implements ICveService {
         assertFalse(CveError.IMPORT_ALREADY_RUNNING, cveDao.isImportRunning());
 
         final String processUid = UUID.randomUUID().toString();
-        mdc.processId(processUid)
-           .processName("importCve");
         cveDao.saveNewImportRun(processUid);
+        cveServiceExecutorService.getExecutor().submit(() -> this.processImport(processUid));
 
+        return processUid;
+    }
+
+    private void processImport(final String processUid) {
+        final MdcService mdc = MdcService.getInstance();
+
+        mdc.processId(processUid).processName("importCve");
         mdc.lifecycleIn(() -> PROCESS_LOG.info("start importing CVE"));
 
         final List<Throwable> errors = new ArrayList<>();
@@ -84,13 +92,12 @@ public class CveService implements ICveService {
         if (errors.isEmpty()) {
             mdc.processStatus(SUCCESS);
             mdc.lifecycleOut(() -> PROCESS_LOG.info("done importing CVE"));
+            cveDao.changeRunState(processUid, CveImportRunStatus.DONE);
         } else {
             mdc.processStatus(ERROR);
             mdc.lifecycleOut(() -> PROCESS_LOG.error("done importing CVE"));
+            cveDao.changeRunState(processUid, errors);
         }
-
-
-        return processUid;
     }
 
 

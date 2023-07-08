@@ -14,19 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.api.common.dto;
+package io.inugami.release.management.infrastructure.datasource.neo4j.entity;
 
 import lombok.*;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
 
-@Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Setter
 @Getter
-public class RuleDTO {
-    private Long     id;
-    private int      version;
-    private RuleType ruleType;
+@Builder(toBuilder = true)
+@ToString(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Node("VersionRules")
+public class VersionRulesEntity {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Relationship(type = "HAS_MAJOR")
+    private RuleEntity major;
+    @Relationship(type = "HAS_MINOR")
+    private RuleEntity minor;
+    @Relationship(type = "HAS_PATCH")
+    private RuleEntity patch;
 }

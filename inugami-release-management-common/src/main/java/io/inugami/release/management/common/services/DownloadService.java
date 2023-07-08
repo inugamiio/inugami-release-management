@@ -103,9 +103,9 @@ public class DownloadService implements IDownloadService {
 
         if (totalSize == -1) {
             if (step) {
-                log.info("{}: {} %", urlToDownload, totalSize);
+                log.info("{}: in progress ....", urlToDownload);
             } else {
-                log.trace("{}: {} %", urlToDownload, totalSize);
+                log.trace("{}: in progress ....", urlToDownload);
             }
         } else {
             final double diff = (((double) downloaded) / ((double) totalSize)) * 100;
