@@ -30,10 +30,17 @@ import java.util.List;
 @Getter
 public class CveImportRunDTO {
     private Long               id;
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private String             uid;
+    @ToString.Include
     private LocalDateTime      startDate;
+    @ToString.Include
     private LocalDateTime      doneDate;
+    @ToString.Include
     private CveImportRunStatus status;
+
+    private String message;
 
     private List<CveImporterStatusDTO> importerStatus;
 

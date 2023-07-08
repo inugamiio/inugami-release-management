@@ -16,10 +16,9 @@
  */
 package io.inugami.release.management.api.domain.cve.dto;
 
-import io.inugami.release.management.api.common.dto.VersionRulesDTO;
-import io.inugami.release.management.api.domain.version.dto.VersionDTO;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder(toBuilder = true)
@@ -31,14 +30,19 @@ import java.util.List;
 @Getter
 public class CveDTO {
 
-    private Long            id;
-    private String          uuid;
-    private String          name;
-    private String          title;
-    private String          link;
-    private String          comment;
-    private VersionRulesDTO rules;
+    private Long                     id;
+    @EqualsAndHashCode.Include
+    @ToString.Include
+    private String                   uuid;
+    private String                   name;
+    private CveSeverity              cveSeverity;
+    @ToString.Include
+    private String                   title;
+    private String                   link;
+    private String                   comment;
+    private List<ProductAffectedDTO> productsAffected;
+    private Boolean                  javaArtifact;
+    private LocalDateTime            datePublished;
 
-    private List<VersionDTO> affectVersions;
 
 }

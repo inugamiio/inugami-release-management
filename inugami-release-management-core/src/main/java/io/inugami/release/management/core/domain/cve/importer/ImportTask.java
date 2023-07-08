@@ -17,30 +17,28 @@
 package io.inugami.release.management.core.domain.cve.importer;
 
 import io.inugami.api.exceptions.UncheckedException;
-import io.inugami.release.management.api.common.dto.DependencyRuleDTO;
 import io.inugami.release.management.api.domain.cve.ICveDao;
 import io.inugami.release.management.api.domain.cve.importer.CveImporter;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 
 @Slf4j
 @Builder
 @RequiredArgsConstructor
-public class ImportTask implements Callable<List<DependencyRuleDTO>> {
+public class ImportTask implements Callable<Void> {
     private final ICveDao     cveDao;
     private final CveImporter importer;
 
     @Override
-    public List<DependencyRuleDTO> call() throws Exception {
+    public Void call() throws Exception {
         try {
-            final List<DependencyRuleDTO> result = importer.process();
-            return result;
+            importer.process();
         } catch (final Throwable e) {
             throw new UncheckedException(e.getMessage(), e);
         }
+        return null;
     }
 }

@@ -16,7 +16,7 @@
  */
 package io.inugami.release.management.infrastructure.datasource.neo4j;
 
-import io.inugami.release.management.infrastructure.datasource.neo4j.mapper.VersionEntityMapper;
+import io.inugami.release.management.infrastructure.datasource.neo4j.mapper.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,5 +32,30 @@ public class DatasourceNeo4jConfiguration {
     @Bean
     public VersionEntityMapper versionEntityMapper() {
         return Mappers.getMapper(VersionEntityMapper.class);
+    }
+
+    @Bean
+    public CveImportRunEntityMapper cveImportRunEntityMapper() {
+        return Mappers.getMapper(CveImportRunEntityMapper.class);
+    }
+
+    @Bean
+    public CveEntityMapper cveEntityMapper() {
+        return Mappers.getMapper(CveEntityMapper.class);
+    }
+
+    @Bean
+    public ProductAffectedEntityMapper productAffectedEntityMapper() {
+        return Mappers.getMapper(ProductAffectedEntityMapper.class);
+    }
+
+    @Bean
+    public RuleEntityMapper ruleEntityMapper() {
+        return Mappers.getMapper(RuleEntityMapper.class);
+    }
+
+    @Bean
+    public VersionRulesEntityMapper versionRulesEntityMapper() {
+        return Mappers.getMapper(VersionRulesEntityMapper.class);
     }
 }

@@ -16,14 +16,10 @@
  */
 package io.inugami.release.management.api.domain.cve.importer;
 
-import io.inugami.release.management.api.common.dto.DependencyRuleDTO;
-
-import java.util.List;
-
 public interface CveImporter {
     default String getName() {
         return this.getClass().getSimpleName();
     }
 
-    List<DependencyRuleDTO> process();
+    void process();
 }
