@@ -1,7 +1,8 @@
 package io.inugami.release.management.infrastructure.domain.cve.importer.mitre;
 
+import io.inugami.api.marshalling.JsonMarshaller;
 import io.inugami.commons.files.FilesUtils;
-import io.inugami.commons.marshaling.JsonMarshaller;
+
 import io.inugami.release.management.common.services.DownloadService;
 import io.inugami.release.management.common.services.ZipService;
 import io.inugami.release.management.infrastructure.common.FileService;

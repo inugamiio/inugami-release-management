@@ -24,5 +24,5 @@ import org.mapstruct.Mapper;
 public interface ProductAffectedEntityMapper {
     ProductAffectedEntity convertToEntity(ProductAffectedDTO dto);
 
-    ProductAffectedDTO convertToDto(ProductAffectedEntity entity);
+
 }

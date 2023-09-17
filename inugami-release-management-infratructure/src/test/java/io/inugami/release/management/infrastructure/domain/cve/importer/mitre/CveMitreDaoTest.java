@@ -1,7 +1,8 @@
 package io.inugami.release.management.infrastructure.domain.cve.importer.mitre;
 
+import io.inugami.api.marshalling.JsonMarshaller;
 import io.inugami.commons.connectors.IHttpBasicConnector;
-import io.inugami.commons.marshaling.JsonMarshaller;
+
 import io.inugami.commons.test.UnitTestHelper;
 import io.inugami.release.management.common.services.DownloadService;
 import io.inugami.release.management.common.services.ZipService;

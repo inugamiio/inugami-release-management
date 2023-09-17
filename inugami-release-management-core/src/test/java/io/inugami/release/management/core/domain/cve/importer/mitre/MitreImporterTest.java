@@ -3,10 +3,7 @@ package io.inugami.release.management.core.domain.cve.importer.mitre;
 import io.inugami.api.exceptions.UncheckedException;
 import io.inugami.api.monitoring.MdcService;
 import io.inugami.commons.test.UnitTestHelper;
-import io.inugami.commons.test.logs.BasicLogEvent;
-import io.inugami.commons.test.logs.DefaultLogListener;
-import io.inugami.commons.test.logs.LogListener;
-import io.inugami.commons.test.logs.LogTestAppender;
+import io.inugami.commons.test.api.SkipLineMatcher;
 import io.inugami.commons.threads.ThreadsExecutorService;
 import io.inugami.release.management.api.domain.cve.dto.CveDTO;
 import io.inugami.release.management.api.domain.cve.importer.ICveMitreDao;
@@ -18,12 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.inugami.commons.test.UnitTestHelper.assertThrows;
 import static io.inugami.release.management.api.domain.cve.exception.CveError.ERROR_IN_IMPORTING_STEP;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
@@ -56,50 +51,101 @@ class MitreImporterTest {
     // =================================================================================================================
     @Test
     void process_nominal() {
+        UnitTestHelper.assertLogs(() -> {
+                                      lenient().when(cveMitreDao.isCveZipFileExists()).thenReturn(false);
+                                      lenient().when(cveMitreDao.getAllFiles()).thenReturn(List.of(file));
+                                      final String file = "core/domain/cve/importer/mitre/mitreImporterScanTask/CVE-2023-33246.json";
+                                      final CveDTO cve  = UnitTestHelper.loadJson(file, CveDTO.class);
+                                      lenient().when(cveMitreDao.readCveFile(any(File.class))).thenReturn(cve);
 
-        final List<BasicLogEvent> logs     = new ArrayList<>();
-        final LogListener         listener = new DefaultLogListener(MitreImporter.class, logs::add);
-        LogTestAppender.register(listener);
-
-        when(cveMitreDao.isCveZipFileExists()).thenReturn(false);
-        when(cveMitreDao.getAllFiles()).thenReturn(List.of(file));
-        final String file = "core/domain/cve/importer/mitre/mitreImporterScanTask/CVE-2023-33246.json";
-        final CveDTO cve  = UnitTestHelper.loadJson(file, CveDTO.class);
-        when(cveMitreDao.readCveFile(any(File.class))).thenReturn(cve);
-
-        final ThreadsExecutorService executor = buildExecutor();
-        buildImporter(executor).process();
-
-
-        LogTestAppender.removeListener(listener);
-        assertThat(logs).isNotEmpty();
+                                      final ThreadsExecutorService executor = buildExecutor();
+                                      buildImporter(executor).process();
+                                  },
+                                  MitreImporter.class,
+                                  """
+                                          [
+                                              {
+                                                  "loggerName":"io.inugami.release.management.core.domain.cve.importer.mitre.MitreImporter",
+                                                  "level":"INFO",
+                                                  "mdc":{}
+                                                  "message":"retrieve mitre files..."
+                                              },
+                                              {
+                                                  "loggerName":"io.inugami.release.management.core.domain.cve.importer.mitre.MitreImporter",
+                                                  "level":"INFO",
+                                                  "mdc":{}
+                                                  "message":"1 mitre files found"
+                                              }
+                                          ]
+                                          """);
     }
 
 
     @Test
     void process_withError() {
-        MdcService.getInstance().clear();
-        final List<BasicLogEvent> logs     = new ArrayList<>();
-        final LogListener         listener = new DefaultLogListener(MitreImporter.class, logs::add);
-        LogTestAppender.register(listener);
+        UnitTestHelper.assertLogs(() -> {
+                                      lenient().when(cveMitreDao.isCveZipFileExists()).thenReturn(false);
+                                      lenient().when(cveMitreDao.getAllFiles()).thenReturn(List.of(file));
+                                      final String file = "core/domain/cve/importer/mitre/mitreImporterScanTask/CVE-2023-33246.json";
+                                      final CveDTO cve  = UnitTestHelper.loadJson(file, CveDTO.class);
 
-        when(cveMitreDao.isCveZipFileExists()).thenReturn(false);
-        when(cveMitreDao.getAllFiles()).thenReturn(List.of(file));
-        final String file = "core/domain/cve/importer/mitre/mitreImporterScanTask/CVE-2023-33246.json";
-        final CveDTO cve  = UnitTestHelper.loadJson(file, CveDTO.class);
-
-        when(cveMitreDao.readCveFile(any(File.class))).thenThrow(new UncheckedException("some error"));
-        final ThreadsExecutorService executor = buildExecutor();
+                                      lenient().when(cveMitreDao.readCveFile(any(File.class))).thenThrow(new UncheckedException("some error"));
+                                      final ThreadsExecutorService executor = buildExecutor();
 
 
-        assertThrows(ERROR_IN_IMPORTING_STEP,
-                     () -> buildImporter(executor).process(),
-                     "core/domain/cve/importer/mitre/mitreImporterTest/process_withError.json");
-        executor.shutdown();
-
-        LogTestAppender.removeListener(listener);
-        assertThat(logs).isNotEmpty();
-        MdcService.getInstance().clear();
+                                      assertThrows(ERROR_IN_IMPORTING_STEP,
+                                                   () -> buildImporter(executor).process(),
+                                                   "core/domain/cve/importer/mitre/mitreImporterTest/process_withError.json");
+                                      executor.shutdown();
+                                  },
+                                  MitreImporter.class,
+                                  """
+                                          [
+                                              {
+                                                  "loggerName":"io.inugami.release.management.core.domain.cve.importer.mitre.MitreImporter",
+                                                  "level":"INFO",
+                                                  "mdc":{}
+                                                  "message":"retrieve mitre files..."
+                                              },
+                                              {
+                                                  "loggerName":"io.inugami.release.management.core.domain.cve.importer.mitre.MitreImporter",
+                                                  "level":"INFO",
+                                                  "mdc":{}
+                                                  "message":"1 mitre files found"
+                                              },
+                                              {
+                                                  "loggerName":"io.inugami.release.management.core.domain.cve.importer.mitre.MitreImporter",
+                                                  "level":"ERROR",
+                                                  "mdc":{
+                                                      "correlation_id":"24e68fae-e0a6-4a07-88b9-d3030b0d3d27",
+                                                      "deviceIdentifier":"system",
+                                                      "request_id":"4a73ed1b-e5c2-49ba-adc5-72594a8bee8c",
+                                                      "service":"technical_main",
+                                                      "traceId":"4a73ed1b-e5c2-49ba-adc5-72594a8bee8c"
+                                                  },
+                                                  "message":"io.inugami.api.exceptions.UncheckedException: some error"
+                                              },
+                                              {
+                                                  "loggerName":"io.inugami.release.management.core.domain.cve.importer.mitre.MitreImporter",
+                                                  "level":"INFO",
+                                                  "mdc":{
+                                                      "correlation_id":"24e68fae-e0a6-4a07-88b9-d3030b0d3d27",
+                                                      "deviceIdentifier":"system",
+                                                      "request_id":"4a73ed1b-e5c2-49ba-adc5-72594a8bee8c",
+                                                      "service":"technical_main",
+                                                      "traceId":"4a73ed1b-e5c2-49ba-adc5-72594a8bee8c"
+                                                  },
+                                                  "message":"MitreImporter process 1/1"
+                                              },
+                                              {
+                                                  "loggerName":"io.inugami.release.management.core.domain.cve.importer.mitre.MitreImporter",
+                                                  "level":"INFO",
+                                                  "mdc":{}
+                                                  "message":"MitreImporter process 2/1"
+                                              }
+                                          ]
+                                          """,
+                                  SkipLineMatcher.of(17, 19, 21, 29, 31, 33));
     }
 
 
