@@ -24,6 +24,9 @@ import io.inugami.release.management.api.domain.cve.dto.CveDTO;
 import io.inugami.release.management.api.domain.cve.importer.ICveMitreDao;
 import io.inugami.release.management.common.services.IDownloadService;
 import io.inugami.release.management.common.services.IZipService;
+import io.inugami.release.management.infrastructure.datasource.neo4j.entity.CveEntity;
+import io.inugami.release.management.infrastructure.datasource.neo4j.mapper.CveEntityMapper;
+import io.inugami.release.management.infrastructure.datasource.neo4j.repository.CveEntityRepository;
 import io.inugami.release.management.infrastructure.domain.cve.importer.mitre.dto.CveContentDTO;
 import io.inugami.release.management.infrastructure.domain.cve.importer.mitre.mapper.CveDTOMitreMapper;
 import lombok.AccessLevel;
@@ -32,6 +35,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -49,18 +53,21 @@ import static io.inugami.release.management.api.domain.cve.exception.CveError.ER
 @RequiredArgsConstructor
 public class CveMitreDao implements ICveMitreDao {
 
-    public static final String            MITRE_CVE_ZIP          = "mitre-cve.zip";
-    public static final String            DATA                   = "data";
-    public static final String            RECENT_ACTIVITIES_JSON = "recent_activities.json";
-    public static final String            JSON                   = ".json";
+
     // =================================================================================================================
     // ATTRIBUTES
     // =================================================================================================================
-    private final       IDownloadService  downloadService;
-    private final       IZipService       zipService;
-    private final       IFileService      fileService;
-    private final       CveDTOMitreMapper cveDTOMitreMapper;
-    private final       ObjectMapper      objectMapper;
+    public static final String              MITRE_CVE_ZIP          = "mitre-cve.zip";
+    public static final String              DATA                   = "data";
+    public static final String              RECENT_ACTIVITIES_JSON = "recent_activities.json";
+    public static final String              JSON                   = ".json";
+    private final       IDownloadService    downloadService;
+    private final       IZipService         zipService;
+    private final       IFileService        fileService;
+    private final       CveDTOMitreMapper   cveDTOMitreMapper;
+    private final       ObjectMapper        objectMapper;
+    private final       CveEntityRepository cveEntityRepository;
+    private final       CveEntityMapper     cveEntityMapper;
 
     @Value("${inugami.release.management.domain.cve.importer.mitre.folder.temp:#{null}}")
     private String folderTempPath;
@@ -87,9 +94,11 @@ public class CveMitreDao implements ICveMitreDao {
     // =================================================================================================================
     // CREATE
     // =================================================================================================================
+    @Transactional
     @Override
     public CveDTO save(final CveDTO cve) {
-        return null;
+        final CveEntity entity = cveEntityMapper.convertToEntity(cve);
+        return cveEntityMapper.convertToDto(cveEntityRepository.save(entity));
     }
 
     // =================================================================================================================

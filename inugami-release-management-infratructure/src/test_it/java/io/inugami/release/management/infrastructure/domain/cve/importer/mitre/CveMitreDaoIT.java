@@ -1,45 +1,57 @@
 package io.inugami.release.management.infrastructure.domain.cve.importer.mitre;
 
-import io.inugami.api.marshalling.JsonMarshaller;
-import io.inugami.commons.files.FilesUtils;
-
-import io.inugami.release.management.common.services.DownloadService;
-import io.inugami.release.management.common.services.ZipService;
-import io.inugami.release.management.infrastructure.common.FileService;
-import io.inugami.release.management.infrastructure.domain.cve.CveMapperConfiguration;
+import io.inugami.commons.test.UnitTestHelper;
+import io.inugami.release.management.api.domain.cve.dto.CveDTO;
+import io.inugami.release.management.api.domain.cve.importer.ICveMitreDao;
+import io.inugami.release.management.infrastructure.SpringBootIntegrationTest;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.util.List;
 
-/*
--Dlogback.configurationFile={workspaces}/inugami-release-management-infratructure/src/test_it/resources/logback.xml
- */
+import static io.inugami.commons.test.UnitTestHelper.assertText;
+import static org.assertj.core.api.Assertions.assertThat;
+
 @Slf4j
-class CveMitreDaoIT {
+class CveMitreDaoIT extends SpringBootIntegrationTest {
+    // =================================================================================================================
+    // ATTRIBUTES
+    // =================================================================================================================
+    @Autowired
+    private ICveMitreDao dao;
 
-    public static void main(final String... args) {
-        final CveMitreDao dao    = buildDao();
-        final File        folder = dao.downloadCve();
-        final List<File>  files  = dao.getAllFiles(folder);
-        log.info("nb files : {}", files.size());
+
+    // =================================================================================================================
+    // INIT
+    // =================================================================================================================
+    protected void init() {
     }
 
-    static CveMitreDao buildDao() {
-        final CveMitreDao dao = new CveMitreDao(
-                new DownloadService(),
-                new ZipService(),
-                new FileService(),
-                new CveMapperConfiguration().cveDTOMitreMapper(),
-                JsonMarshaller.getInstance().getDefaultObjectMapper()
-        );
+    // =================================================================================================================
+    // CREATE
+    // =================================================================================================================
+    @Test
+    void save_nominal() {
+        CveDTO data = UnitTestHelper.loadIntegrationJson("infrastructure/domain/cve/importer/mitre/cveMitreDaoIT/save_nominal_data.json", CveDTO.class);
 
-        dao.setCveMitreUrl("https://github.com/CVEProject/cvelistV5/archive/refs/heads/main.zip");
-        final File userHome = new File(System.getProperty("user.home")).getAbsoluteFile();
-        final File file     = FilesUtils.buildFile(userHome, ".inugami", "release-management", "mitre");
-        dao.setFolderTempPath(file.getAbsolutePath());
-        dao.init();
-        return dao;
+        final CveDTO result = dao.save(data);
+        assertText(result,
+                   """
+                           """);
     }
+
+
+    // =================================================================================================================
+    // READ
+    // =================================================================================================================
+    @Test
+    void downloadCve_nominal() {
+        dao.downloadCve();
+        final List<File> files = dao.getAllFiles();
+        assertThat(files).isNotEmpty();
+    }
+
 
 }

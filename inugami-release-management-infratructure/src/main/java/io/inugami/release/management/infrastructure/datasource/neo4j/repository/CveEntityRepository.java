@@ -14,22 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package io.inugami.release.management.infrastructure.domain.cve;
+package io.inugami.release.management.infrastructure.datasource.neo4j.repository;
 
-import io.inugami.release.management.infrastructure.datasource.neo4j.mapper.CveEntityMapper;
-import io.inugami.release.management.infrastructure.domain.cve.importer.mitre.mapper.CveDTOMitreMapper;
-import org.mapstruct.factory.Mappers;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import io.inugami.release.management.infrastructure.datasource.neo4j.entity.CveEntity;
+import io.inugami.release.management.infrastructure.datasource.neo4j.entity.CveImportRunEntity;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.neo4j.repository.query.Query;
 
-@Configuration
-public class CveMapperConfiguration {
-    @Bean
-    public CveDTOMitreMapper cveDTOMitreMapper() {
-        return Mappers.getMapper(CveDTOMitreMapper.class);
-    }
+import java.util.Optional;
 
-    public CveEntityMapper cveEntityMapper() {
-        return Mappers.getMapper(CveEntityMapper.class);
-    }
+public interface CveEntityRepository extends Neo4jRepository<CveEntity, Long> {
+
 }

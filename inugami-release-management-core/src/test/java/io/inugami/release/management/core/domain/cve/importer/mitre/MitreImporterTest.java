@@ -21,8 +21,6 @@ import static io.inugami.commons.test.UnitTestHelper.assertThrows;
 import static io.inugami.release.management.api.domain.cve.exception.CveError.ERROR_IN_IMPORTING_STEP;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 class MitreImporterTest {
 

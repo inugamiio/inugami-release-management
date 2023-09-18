@@ -56,6 +56,7 @@
         <org.apache.maven.plugins.source.version>3.2.1</org.apache.maven.plugins.source.version>
         <org.codehaus.mojo.version>3.3.0</org.codehaus.mojo.version>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+        <org.neo4j.version>5.12.0</org.neo4j.version>
         <org.owas.version>8.2.1</org.owas.version>
         <org.pitest.version>1.12.0</org.pitest.version>
         <org.pitest.pitest-junit5-plugin.version>1.1.2</org.pitest.pitest-junit5-plugin.version>
@@ -215,6 +216,17 @@
                 <version>${org.mapstruct.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j</artifactId>
+                <version>${org.neo4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j-bolt</artifactId>
+                <version>${org.neo4j.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.slf4j</groupId>

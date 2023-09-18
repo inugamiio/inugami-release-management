@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Mapper
+@Mapper(uses = {VersionRulesEntityMapper.class})
 public interface VersionEntityMapper {
 
     @Mapping(target = "name", source = "hash")

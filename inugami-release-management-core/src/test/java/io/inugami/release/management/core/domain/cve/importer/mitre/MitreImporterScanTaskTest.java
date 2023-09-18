@@ -33,16 +33,37 @@ class MitreImporterScanTaskTest {
         lenient().when(cveMitreDao.readCveFile(any(File.class)))
                  .thenAnswer(answer -> UnitTestHelper.loadJson(answer.getArgument(0, File.class).getPath(),
                                                                CveDTO.class));
+
+        lenient().when(cveMitreDao.save(any(CveDTO.class)))
+                 .thenAnswer(answer -> answer.getArgument(0, CveDTO.class).toBuilder().id(1L).build());
     }
 
     // =================================================================================================================
     // CALL
     // =================================================================================================================
+    //TODO: implement task
     @Test
     void call_CVE_2023_33246() throws Exception {
-        when(file.getPath()).thenReturn("core/domain/cve/importer/mitre/mitreImporterScanTask/CVE-2023-33246.json");
-        final CveDTO result = buildTask().call();
-        assertThat(result).isNull();
+        when(file.getPath()).thenReturn("core/domain/cve/importer/mitre/mitreImporterScanTask/cveDTO_CVE-2023-33246.json");
+        assertText(buildTask().call(),
+                   """
+                           {
+                             "comment" : "Spark's Apache Maven-based build includes a convenience script, 'build/mvn', that downloads and runs a zinc server to speed up compilation. It has been included in release branches since 1.3.x, up to and including master. This server will accept connections from external hosts by default. A specially-crafted request to the zinc server could cause it to reveal information in files readable to the developer account running the build. Note that this issue does not affect end users of Spark, only developers building Spark from source code.",
+                             "cveSeverity" : "LOW",
+                             "datePublished" : "2018-10-24T00:00:00",
+                             "id" : 1,
+                             "javaArtifact" : true,
+                             "link" : "http://www.securityfocus.com/bid/105756",
+                             "name" : "CVE-2018-11804",
+                             "productsAffected" : [ {
+                               "product" : "Apache Spark",
+                               "vendor" : "Apache Software Foundation"
+                             } ],
+                             "title" : "[dev] 20181024 CVE-2018-11804: Apache Spark build/mvn runs zinc, and can expose information from build machines",
+                             "uuid" : "CVE-2018-11804"
+                           }
+                           """);
+
     }
 
     // =================================================================================================================

@@ -38,13 +38,8 @@ public class MitreImporterScanTask implements Callable<CveDTO> {
     // =================================================================================================================
     @Override
     public CveDTO call() throws Exception {
-        CveDTO       result = null;
         final CveDTO data   = cveMitreDao.readCveFile(file);
-        if (data.getJavaArtifact() != null && data.getJavaArtifact().booleanValue()) {
-            result = cveMitreDao.save(data);
-        }
-        
-        return result;
+        return cveMitreDao.save(data);
     }
 
 }

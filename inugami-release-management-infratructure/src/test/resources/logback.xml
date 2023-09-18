@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--================================================================================================================
+    = APPENDER
+    =================================================================================================================-->
+    <appender name="logTest" class="io.inugami.commons.test.logs.LogTestAppender">
+        <encoder class="io.inugami.logs.obfuscator.encoder.ObfuscatorEncoder">
+            <configuration>
+                <forceNewLine>false</forceNewLine>
+            </configuration>
+            <pattern>%m</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{dd/MM HH:mm:ss} %5p [%c:%L] - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--================================================================================================================
+    = LOGGERS
+    =================================================================================================================-->
+    <logger name="org.eclipse.jetty">
+        <level value="WARN"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="io.inugami.commons.spring.InugamiSpringApplicationListener">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="io.restassured">
+        <level value="INFO"/>
+    </logger>
+
+
+    <logger name="org.apache">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="org.springframework">
+        <level value="INFO"/>
+    </logger>
+    <logger name="_org.springframework">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="io.micrometer">
+        <level value="INFO"/>
+    </logger>
+
+
+    <!--================================================================================================================
+    = ROOT
+    =================================================================================================================-->
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="logTest"/>
+    </root>
+
+</configuration>
