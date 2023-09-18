@@ -26,6 +26,7 @@ import lombok.*;
 @Setter
 @Getter
 public class RuleDTO {
+    private Long     id;
     private int      version;
     private RuleType ruleType;
 }

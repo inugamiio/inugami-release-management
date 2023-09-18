@@ -9,6 +9,14 @@ inugami:
             maxThreads: 20
             timeout: 30000
             mitre:
+              download:
+                timeout: 120000
+                ttl: 120000
+                max-connection: 10
+                max-route: 10
+                socket-timeout: 120000
+              url: https://github.com/CVEProject/cvelistV5/archive/refs/heads/main.zip
+              folder.temp: "${user.home}/.inugami/inugami_cve_importer_mitre"
               maxThreads: 20
               timeout: 30000
 

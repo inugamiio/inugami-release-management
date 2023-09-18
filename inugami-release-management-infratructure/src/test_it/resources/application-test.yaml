@@ -1,0 +1,47 @@
+application:
+  groupId: io.inugami.release.management
+  artifactId: inugami-release-management-infratructure
+  version: 1.0.0
+  commitId: 5940bba4-4755-4482-8682-4cdb813df92b
+  commitDate: 2023-09-18T09:28:00
+
+spring:
+  neo4j:
+    uri: "bolt://localhost:7687"
+    authentication:
+      username: neo4j
+      password: password
+
+inugami:
+  release:
+    management:
+      domain:
+        cve:
+          importer:
+            mitre:
+              folder:
+                temp: "${user.home}/.inugami/release-management/mitre"
+              url: "https://github.com/CVEProject/cvelistV5/archive/refs/heads/main.zip"
+  spring:
+    mapstruct:
+      scanner:
+        enabled: true
+        base-package: io.inugami.monitoring.springboot.app
+  monitoring:
+    enabled: true
+    exception:
+      show:
+        detail:
+          enabled: true
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: "ALWAYS"
+  security:
+    enabled: false

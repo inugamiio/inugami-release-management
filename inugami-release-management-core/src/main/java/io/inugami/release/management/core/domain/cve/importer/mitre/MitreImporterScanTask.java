@@ -17,69 +17,29 @@
 package io.inugami.release.management.core.domain.cve.importer.mitre;
 
 import io.inugami.api.spring.NotSpringBean;
-import io.inugami.release.management.api.common.dto.DependencyRuleDTO;
-import io.inugami.release.management.api.domain.cve.dto.CveAffectedDTO;
-import io.inugami.release.management.api.domain.cve.dto.CveContentDTO;
-import io.inugami.release.management.api.domain.cve.dto.CveVersionDTO;
+import io.inugami.release.management.api.domain.cve.dto.CveDTO;
 import io.inugami.release.management.api.domain.cve.importer.ICveMitreDao;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 
 @NotSpringBean
 @Builder
 @RequiredArgsConstructor
-public class MitreImporterScanTask implements Callable<DependencyRuleDTO> {
-    public static final String       MAVEN = "maven";
-    private final       ICveMitreDao cveMitreDao;
-    private final       File         file;
+public class MitreImporterScanTask implements Callable<CveDTO> {
+    private final ICveMitreDao cveMitreDao;
+    private final File         file;
 
 
     // =================================================================================================================
     // CALL
     // =================================================================================================================
     @Override
-    public DependencyRuleDTO call() throws Exception {
-        final CveContentDTO cveContent = cveMitreDao.readCveFile(file);
-        if (!isMavenCve(cveContent)) {
-            return null;
-        }
-
-        return convertToDependencyRuleDTO(cveContent);
+    public CveDTO call() throws Exception {
+        final CveDTO data   = cveMitreDao.readCveFile(file);
+        return cveMitreDao.save(data);
     }
 
-
-    // =================================================================================================================
-    // PRIVATE
-    // =================================================================================================================
-    protected boolean isMavenCve(final CveContentDTO cveContent) {
-        return cveContent != null
-                && cveContent.getContainers() != null
-                && cveContent.getContainers().getCna() != null
-                && cveContent.getContainers().getCna().getAffected() != null
-                && containMavenVersion(cveContent.getContainers().getCna().getAffected());
-    }
-
-    private boolean containMavenVersion(final List<CveAffectedDTO> affected) {
-        for (final CveAffectedDTO affectedDTO : affected) {
-            for (final CveVersionDTO version : Optional.ofNullable(affectedDTO.getVersions()).orElse(new ArrayList<>())) {
-                if (MAVEN.equalsIgnoreCase(version.getVersionType())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
-    private DependencyRuleDTO convertToDependencyRuleDTO(final CveContentDTO cveContent) {
-        final var builder = DependencyRuleDTO.builder();
-        // TODO : implement mapper
-        return builder.build();
-    }
 }

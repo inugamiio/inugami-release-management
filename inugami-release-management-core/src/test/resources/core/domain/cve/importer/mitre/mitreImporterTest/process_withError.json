@@ -1,0 +1,11 @@
+{
+  "errorStatus" : 500,
+  "errorCode" : "CVE-1_0",
+  "message" : "error occurs in importing process",
+  "messageDetail" : "io.inugami.api.exceptions.UncheckedException: some error",
+  "errorType" : "technical",
+  "exploitationError" : false,
+  "rollback" : false,
+  "retryable" : false,
+  "errorDomain" : "cve"
+}

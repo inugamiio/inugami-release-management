@@ -1,0 +1,27 @@
+{
+  "cveSeverity" : "MODERATE",
+  "datePublished" : "2023-05-24T14:45:25.684",
+  "javaArtifact" : true,
+  "link" : "https://lists.apache.org/thread/1s8j2c8kogthtpv3060yddk03zq0pxyp",
+  "name" : "CVE-2023-33246",
+  "productsAffected" : [ {
+    "product" : "Apache RocketMQ",
+    "rules" : [ {
+      "major" : {
+        "ruleType" : "=",
+        "version" : 5
+      },
+      "minor" : {
+        "ruleType" : "<=",
+        "version" : 1
+      },
+      "patch" : {
+        "ruleType" : "<=",
+        "version" : 1
+      }
+    } ],
+    "vendor" : "Apache Software Foundation"
+  } ],
+  "title" : "Apache RocketMQ: Possible remote code execution vulnerability when using the update configuration function",
+  "uuid" : "CVE-2023-33246"
+}

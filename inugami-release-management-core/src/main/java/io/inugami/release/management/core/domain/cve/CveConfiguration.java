@@ -37,30 +37,32 @@ public class CveConfiguration {
                      .forEach(ThreadsExecutorService::shutdown);
     }
 
+
     @Bean
-    public ThreadsExecutorService cveServiceExecutorService(@Value("inugami.release.management.domain.cve.importer.maxThreads:20") final int maxThread,
-                                                            @Value("inugami.release.management.domain.cve.importer.timeout:30000") final long timeout) {
+    public ThreadsExecutorService mitreImporterExecutorService(@Value("${inugami.release.management.domain.cve.importer.mitre.maxThreads:20}") final int maxThread,
+                                                               @Value("${inugami.release.management.domain.cve.importer.mitre.timeout:30000}") final long timeout) {
+        final ThreadsExecutorService result = new ThreadsExecutorService("mitreImporterExecutorService",
+                                                                         maxThread,
+                                                                         true,
+                                                                         timeout
+        );
+        THREADS_POOLS.put("mitreImporterExecutorService", result);
+        result.start();
+        return result;
+    }
+
+
+    @Bean
+    public ThreadsExecutorService cveServiceExecutorService(@Value("${inugami.release.management.domain.cve.maxThreads:2}") final int maxThread,
+                                                            @Value("${inugami.release.management.domain.cve.timeout:30000}") final long timeout) {
         final ThreadsExecutorService result = new ThreadsExecutorService("cveServiceExecutorService",
                                                                          maxThread,
                                                                          true,
                                                                          timeout
         );
         THREADS_POOLS.put("cveServiceExecutorService", result);
+        result.start();
         return result;
     }
-
-
-    @Bean
-    public ThreadsExecutorService mitreImporterExecutorService(@Value("inugami.release.management.domain.cve.importer.mitre.maxThreads:20") final int maxThread,
-                                                               @Value("inugami.release.management.domain.cve.importer.mitre.timeout:30000") final long timeout) {
-        final ThreadsExecutorService result = new ThreadsExecutorService("cveServiceExecutorService",
-                                                                         maxThread,
-                                                                         true,
-                                                                         timeout
-        );
-        THREADS_POOLS.put("mitreImporterExecutorService", result);
-        return result;
-    }
-
 
 }

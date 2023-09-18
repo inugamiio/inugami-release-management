@@ -36,7 +36,26 @@ public enum CveError implements ErrorCode {
     // =================================================================================================================
     // 1 - CREATE
     // =================================================================================================================
+    ERROR_IN_IMPORTING_STEP(newBuilder()
+                                    .errorCode("CVE-1_0")
+                                    .statusCode(500)
+                                    .message("error occurs in importing process")
+                                    .errorTypeTechnical()
+                                    .domain(CveError.DOMAIN)),
 
+    ERROR_READING_MITRE_FILE(newBuilder()
+                                     .errorCode("CVE-1_1")
+                                     .statusCode(500)
+                                     .message("error on reading mitre file")
+                                     .errorTypeTechnical()
+                                     .domain(CveError.DOMAIN)),
+
+    ERROR_UNZIP_MITRE_FILE(newBuilder()
+                                   .errorCode("CVE-1_2")
+                                   .statusCode(500)
+                                   .message("error on unzip mitre file")
+                                   .errorTypeTechnical()
+                                   .domain(CveError.DOMAIN)),
     // =================================================================================================================
     // 2 - READ
     // =================================================================================================================
