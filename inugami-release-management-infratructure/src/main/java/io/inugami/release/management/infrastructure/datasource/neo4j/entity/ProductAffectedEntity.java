@@ -41,7 +41,7 @@ public class ProductAffectedEntity {
     @ToString.Include
     @EqualsAndHashCode.Include
     @Relationship(type = "HAS_VERSION_RULES")
-    private List<VersionRulesDTO> rules;
+    private List<VersionRulesEntity> rules;
 
     @ToString.Include
     @EqualsAndHashCode.Include

@@ -20,6 +20,7 @@ import io.inugami.release.management.api.domain.cve.dto.CveDTO;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 public interface ICveMitreDao {
     // =================================================================================================================
@@ -30,6 +31,8 @@ public interface ICveMitreDao {
     // =================================================================================================================
     // READ
     // =================================================================================================================
+    Optional<CveDTO> getById(final Long id);
+
     boolean isCveZipFileExists();
 
     File downloadCve();

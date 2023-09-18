@@ -18,23 +18,26 @@ package io.inugami.release.management.infrastructure;
 
 import io.inugami.api.exceptions.UncheckedException;
 import io.inugami.commons.test.UnitTestHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.neo4j.configuration.GraphDatabaseSettings;
-import org.neo4j.configuration.helpers.SocketAddress;
 import org.neo4j.dbms.api.DatabaseManagementService;
 import org.neo4j.dbms.api.DatabaseManagementServiceBuilder;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Transaction;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.Duration;
 import java.util.UUID;
 
+@Slf4j
 public class Neo4jInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     public static final String DEFAULT_DB = "neo4J";
+    public static final String END_LINE   = ";";
+    public static final String COMMENT = "//";
 
     public static String initializationQuery() {
         return """
@@ -72,6 +75,11 @@ public class Neo4jInitializer implements ApplicationContextInitializer<Configura
                 .build();
         final GraphDatabaseService graphDb = managementService.database(DEFAULT_DB);
 
+        final File importFile = UnitTestHelper.buildIntegrationTestFilePath("neo4j.import.cql");
+        if (importFile.exists()) {
+            final String script = UnitTestHelper.readFile(importFile);
+            importCpql(script, graphDb);
+        }
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -79,5 +87,26 @@ public class Neo4jInitializer implements ApplicationContextInitializer<Configura
                 managementService.shutdown();
             }
         });
+    }
+
+    private void importCpql(final String script, final GraphDatabaseService graphDb) {
+        try {
+            final Transaction tx    = graphDb.beginTx();
+            final String[]    parts = script.split(END_LINE);
+            for (String part : parts) {
+                final String currentScript = part.trim();
+                if(currentScript.startsWith(COMMENT) || currentScript.isEmpty()){
+                    continue;
+                }
+                graphDb.executeTransactionally(currentScript + END_LINE);
+            }
+
+            tx.commit();
+            tx.close();
+        } catch (Throwable e) {
+            log.error(e.getMessage(), e);
+            throw new UncheckedException(e.getMessage(), e);
+        }
+
     }
 }

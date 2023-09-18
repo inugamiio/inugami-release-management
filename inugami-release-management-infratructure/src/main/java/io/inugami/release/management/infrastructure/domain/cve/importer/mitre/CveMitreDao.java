@@ -40,10 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static io.inugami.release.management.api.domain.cve.exception.CveError.ERROR_UNZIP_MITRE_FILE;
 
@@ -104,6 +101,12 @@ public class CveMitreDao implements ICveMitreDao {
     // =================================================================================================================
     // READ
     // =================================================================================================================
+    @Transactional
+    @Override
+    public Optional<CveDTO> getById(final Long id) {
+        return cveEntityRepository.findById(id)
+                .map(cveEntityMapper::convertToDto);
+    }
     @Override
     public boolean isCveZipFileExists() {
         return folderTemp.listFiles().length > 0;
